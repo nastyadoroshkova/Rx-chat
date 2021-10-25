@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {sendMessage, startSession} from "../redux/actions";
-import { RiUserLine } from "react-icons/ri"
+import {sendMessage} from "../redux/actions";
 
 export default () => {
   const dispatch = useDispatch();
   const messageInput = useRef(null);
   const [message, setMessage] = useState('');
   const messages = useSelector((state) => state.app.messages);
+  const username = useSelector((state) => state.app.username);
 
   useEffect(() => {
     messageInput.current.focus();
@@ -32,19 +32,23 @@ export default () => {
 
   return (
     <div className="chatbox">
-      <div className="chatbox-messages">
-        {messages.map((item) => {
-          return (
-            <div className="chatbox-messages_area">
-              <div className="chatbox-messages_user">
-                <div>{item.username}</div>
+      <div className="chatbox_wrapper">
+        <div className="chatbox-messages">
+          {messages.map((item) => {
+            return (
+              <div className={"chatbox-messages_area"}>
+                <div>
+                  <div className="chatbox-messages_user">
+                    <div>{username !== item.username ? item.username : "You"}</div>
+                  </div>
+                  <div className="chatbox-messages_message" key={item.message.length}>
+                    <div>{item.message} </div>
+                  </div>
+                </div>
               </div>
-              <div className="chatbox-messages_message" key={item.message.length}>
-                <div>{item.message} </div>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       <div className="chatbox-inputarea">
         <input

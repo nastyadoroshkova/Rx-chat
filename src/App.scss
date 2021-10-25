@@ -138,7 +138,28 @@
               inset 0 -2rem 2rem -2rem rgba(black, 0.05);
 
       .chatbox-messages {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
         min-height: 500px;
+
+        .self {
+          display: flex;
+          flex-direction: row-reverse;
+
+          .chatbox-messages_user {}
+
+          .chatbox-messages_message {
+            border-radius: 1.125rem 1.125rem 0 1.125rem;
+          }
+        }
+      }
+
+      .chatbox_wrapper {
+        max-height: 500px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column-reverse;
       }
 
       .chatbox-messages_message {
