@@ -1,0 +1,207 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+*:focus {
+  outline: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app {
+  margin: 50px 120px 50px;
+
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+
+    .app-header_logo {
+      font-family: Arial Rounded MT Bold;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 37px;
+    }
+
+    .app-header_user {
+      color: #356ad1;
+      font-family: Arial;
+      font-size: 18px;
+      line-height: 37px;
+    }
+  }
+
+  .creation-form {
+    height: 80vh;
+    width: 80vw;
+    margin: 60px auto;
+
+    .creation-form_title {
+      text-align: center;
+      font-family: Arial Rounded MT Bold;
+      font-style: normal;
+      font-size: 32px;
+      line-height: 37px;
+
+      .creation-form_title-span {
+        color: #39B773;
+      }
+    }
+
+    .creation-form_subtitle {
+      color: #494545;
+      text-align: center;
+      margin-top: 20px;
+      font-family: Arial;
+      font-style: normal;
+      font-weight: lighter;
+      font-size: 18px;
+    }
+  }
+
+  .creation-form_box {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .creation-form_form {
+    display: flex;
+    font-family: Arial;
+    font-style: normal;
+
+    .creation-form_button {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      height: 36px;
+      width: 70px;
+      background-color: #39B773;
+      color: #fff;
+      border-radius: 8px;
+      border-color: transparent;
+      margin-left: 16px;
+    }
+
+    .creation-form_input {
+      height: 32px;
+      border-color: #ccc;
+      border-width: 0 0 1px 0;
+      padding-left: 10px;
+      font-size: 16px;
+      width: 280px;
+    }
+  }
+
+
+    .chatbox {
+      margin-top: 30px;
+      padding: 1rem;
+      background: #F7F7F7;
+      flex-shrink: 2;
+      overflow-y: auto;
+
+      box-shadow:
+              inset 0 2rem 2rem -2rem rgba(black, 0.05),
+              inset 0 -2rem 2rem -2rem rgba(black, 0.05);
+
+      .chatbox-messages {
+        min-height: 500px;
+      }
+
+      .chatbox-messages_message {
+        box-sizing: border-box;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 1rem 1rem;
+        background: #FFF;
+        border-radius: 1.125rem 1.125rem 1.125rem 0;
+        min-height: 2.25rem;
+        width: fit-content;
+        max-width: 66%;
+
+        box-shadow:
+                0 0 2rem rgba(black, 0.075),
+                0rem 1rem 1rem -1rem rgba(black, 0.1);
+      }
+
+      .chatbox-inputarea {
+        box-sizing: border-box;
+        flex-basis: 4rem;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem 0 1.5rem;
+        margin-top: 10px;
+
+        input {
+          border:none;
+          background-image:none;
+          background-color: white;
+          padding: 0.5rem 1rem;
+          margin-right: 1rem;
+          border-radius: 1.125rem;
+          flex-grow: 2;
+          box-shadow:
+                  0 0 1rem rgba(black, 0.1),
+                  0rem 1rem 1rem -1rem rgba(black, 0.2);
+
+          font-family: Red hat Display, sans-serif;
+          font-weight: 400;
+          letter-spacing: 0.025em;
+        }
+
+        .chatbox-inputarea_button {
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 16px;
+          height: 36px;
+          width: 160px;
+          background-color: #39B773;
+          color: #fff;
+          border-radius: 8px;
+          border-color: transparent;
+          margin-left: 16px;
+        }
+      }
+
+      .chatbox-messages_user {
+        display: flex;
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 1.3rem;
+        margin-left: 15px;
+      }
+    }
+}
