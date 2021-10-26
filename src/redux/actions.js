@@ -21,7 +21,7 @@ const configClient = () => {
       metadataMimeType: MESSAGE_RSOCKET_ROUTING.string
     },
     transport: new RSocketWebSocketClient({
-      url: "ws://localhost:6565",
+      url: "ws://green-chat-33jco.ondigitalocean.app",
     }),
   });
 };
