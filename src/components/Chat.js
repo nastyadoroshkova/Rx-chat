@@ -51,16 +51,16 @@ export default () => {
         </div>
       </div>
       <div className="chatbox-inputarea">
-        <input
+        <textarea
           ref={messageInput}
-          type="text"
           name="message"
+          placeholder="Write a message ..."
           onKeyDown={handleKeyDown}
           value={message}
           onChange={onChange}
         />
         <button className="chatbox-inputarea_button" onClick={send}>
-          Send message
+          Send
         </button>
       </div>
     </div>

@@ -41,8 +41,30 @@
   }
 }
 
+@mixin _768 {
+  @media (max-width: 768px){
+    @content;
+  }
+}
+
 .app {
-  margin: 50px 120px 50px;
+  margin: 30px 120px;
+
+  @media (max-width: 1170px){
+    margin: 10px 80px;
+  }
+
+  @media (max-width: 979px){
+    margin: 10px 70px;
+  }
+
+  @media (max-width: 768px){
+    margin: 10px 50px;
+  }
+
+  @media (max-width: 600px){
+    margin: 10px 20px;
+  }
 
   .app-header {
     display: flex;
@@ -183,16 +205,16 @@
         flex-shrink: 0;
         display: flex;
         align-items: center;
-        padding: 0 0.5rem 0 1.5rem;
+        padding: 0 0.5rem 0 1.2rem;
         margin-top: 10px;
 
-        input {
+        textarea {
           border:none;
           background-image:none;
           background-color: white;
-          padding: 0.5rem 1rem;
+          padding: 0.7rem 1rem;
           margin-right: 1rem;
-          border-radius: 1.125rem;
+          border-radius: 1rem;
           flex-grow: 2;
           box-shadow:
                   0 0 1rem rgba(black, 0.1),
@@ -200,7 +222,7 @@
 
           font-family: Red hat Display, sans-serif;
           font-weight: 400;
-          letter-spacing: 0.025em;
+          font-size: 16px;
         }
 
         .chatbox-inputarea_button {

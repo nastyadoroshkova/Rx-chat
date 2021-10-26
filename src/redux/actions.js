@@ -32,7 +32,6 @@ export function createConnection() {
     try {
       configClient().connect().then(
         (socket) => {
-          console.log(socket, 'socket test');
           dispatch({ type: CONNECT, payload: socket });
         },
         (error) => console.log("Connection has been refused due to:: " + error)

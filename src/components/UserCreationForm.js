@@ -42,7 +42,7 @@ export default () => {
             />
           </div>
           <button type="submit" className="creation-form_button" onClick={start}>
-            Start
+            Join
           </button>
         </div>
       </div>
