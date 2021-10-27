@@ -36,7 +36,7 @@ const Chat = () => {
         <div className="chatbox-messages">
           {messages.map((item) => {
             return (
-              <div key={item.user.id} className={"chatbox-messages_area"}>
+              <div key={Math.random().toString()} className={"chatbox-messages_area"}>
                 <div>
                   {
                     item.user ? (
