@@ -14,6 +14,8 @@ import {
 } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
 
+const max_int = 2147483647;
+
 const configClient = () => {
   return new RSocketClient({
     serializers: {
@@ -80,7 +82,7 @@ export function startSession(username) {
         },
         onSubscribe: (sub) => {
           dispatch({type: CREATE_MESSAGE_STREAM, payload: sub});
-          sub.request(1000)
+          sub.request(max_int)
         }
       });
   };
@@ -119,7 +121,7 @@ export function getUsersSession(socket, dispatch) {
       },
       onSubscribe: (sub) => {
         console.log('getUsersSession onSubscribe', sub);
-        sub.request(1000)
+        sub.request(max_int)
       }
     });
 }

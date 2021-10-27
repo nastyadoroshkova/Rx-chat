@@ -41,7 +41,7 @@ const Chat = () => {
                   {
                     item.user ? (
                       <div className="chatbox-messages_user">
-                        <div>{user.username !== item.user.username ? item.user.username : "You"}</div>
+                        <div style={{color: item.user.color}}>{user.username !== item.user.username ? item.user.username : "You"}</div>
                       </div>
                     ) : null
                   }
