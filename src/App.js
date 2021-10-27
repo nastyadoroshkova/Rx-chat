@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { createConnection } from './redux/actions';
 
 import "./App.scss";
+import UserList from "./components/UserList";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,21 +20,29 @@ function App() {
     if(!username){
       return <UserCreationForm />
     } else {
-      return <Chat/>
+      return (
+        <div className="chat-box">
+          <div className="chat-box_userList">
+            <div className="chat-box_userInfo">
+              <div className="chat-box_userImg">
+                <img src="images/image_user.png"/>
+              </div>
+              <div className="chat-box_userInfo-name">
+                {username}
+              </div>
+            </div>
+            <UserList/>
+          </div>
+          <div className="chat-box_chat">
+            <Chat/>
+          </div>
+        </div>
+      )
     }
   }
 
   return (
     <div className="app">
-      <div className="app-header">
-        <div className="app-header_logo">Green.</div>
-        {username ? (
-          <div className="app-header_user">
-            <img/>
-            <a>{username}</a>
-          </div>
-        ) : <div/>}
-      </div>
       {body()}
     </div>
   );

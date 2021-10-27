@@ -83,6 +83,15 @@
       font-size: 18px;
       line-height: 37px;
     }
+
+    .app-header_logout svg{
+      height: 40px;
+    }
+
+    .app-header_user-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .creation-form {
@@ -149,7 +158,6 @@
 
 
     .chatbox {
-      margin-top: 30px;
       padding: 1rem;
       background: #F7F7F7;
       flex-shrink: 2;
@@ -223,14 +231,16 @@
           font-family: Red hat Display, sans-serif;
           font-weight: 400;
           font-size: 16px;
+          height: auto;
+          line-height:1.4;
+          max-height: 150px;
         }
 
         .chatbox-inputarea_button {
           cursor: pointer;
           font-weight: bold;
           font-size: 16px;
-          height: 36px;
-          width: 160px;
+          padding: 0.5rem 1.2rem;
           background-color: #39B773;
           color: #fff;
           border-radius: 8px;
@@ -247,4 +257,64 @@
         margin-left: 15px;
       }
     }
+
+  .chat-box {
+    display: flex;
+    margin-top: 30px;
+  }
+
+  .chat-box_userList {
+    flex: 3;
+    padding: 20px 0;
+    border: 1px solid #f7f7f7;
+    border-radius: 20px 0 0 20px;
+  }
+
+  .chat-box_chat {
+    flex: 9;
+  }
+
+  .chatbox-users_area {
+    padding: 20px;
+    cursor: pointer;
+    .chatbox-users_box {
+      display: flex;
+      .chatbox-users_username {
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .chatbox-users_user {
+        flex: 3;
+      }
+      .chatbox-users_message,
+      .chatbox-users_time {
+        flex: 1;
+        color: #b2b2b2;
+        font-size: 14px;
+        line-height:1.4;
+      }
+    }
+  }
+
+  .chatbox-users_area:hover {
+    background-color: rgba(204, 204, 204, 0.13);
+  }
+
+  .chat-box_userInfo {
+    margin-bottom: 10px;
+    text-align: center;
+    .chat-box_userInfo-name {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+
+  .chat-box_userImg img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
 }

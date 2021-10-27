@@ -1,4 +1,10 @@
-import {CONNECT, CREATE_USER, CREATE_MESSAGE_STREAM, RECEIVE_MESSAGE} from './actionTypes';
+import {
+  CONNECT,
+  CREATE_USER,
+  GET_LIST_USER,
+  CREATE_MESSAGE_STREAM,
+  RECEIVE_MESSAGE
+} from './actionTypes';
 import {
   APPLICATION_JSON,
   IdentitySerializer,
@@ -32,7 +38,8 @@ export function createConnection() {
     try {
       configClient().connect().then(
         (socket) => {
-          dispatch({ type: CONNECT, payload: socket });
+          getUsersSession(socket);
+          dispatch({type: CONNECT, payload: socket});
         },
         (error) => console.log("Connection has been refused due to:: " + error)
       );
@@ -43,10 +50,9 @@ export function createConnection() {
 }
 
 export function startSession(username) {
-  console.log('startSession');
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     try {
-      const { rsocket } = getState().app;
+      const {rsocket} = getState().app;
       rsocket.requestStream(
         {
           data: {username},
@@ -54,7 +60,7 @@ export function startSession(username) {
         }).subscribe({
         onNext: (value) => {
           console.log(value.data, 'next');
-          dispatch({ type: RECEIVE_MESSAGE, payload: value.data });
+          dispatch({type: RECEIVE_MESSAGE, payload: value.data});
         },
         onError: (err) => {
           console.log(err, 'err');
@@ -63,8 +69,8 @@ export function startSession(username) {
           console.log('complete');
         },
         onSubscribe: (sub) => {
-          dispatch({ type: CREATE_USER, payload: username });
-          dispatch({ type: CREATE_MESSAGE_STREAM, payload: sub });
+          dispatch({type: CREATE_USER, payload: username});
+          dispatch({type: CREATE_MESSAGE_STREAM, payload: sub});
           sub.request(1000)
         }
       });
@@ -77,7 +83,7 @@ export function startSession(username) {
 export function sendMessage(message) {
   console.log('sendMessage');
   return async (dispatch, getState) => {
-    const { username, rsocket } = getState().app;
+    const {username, rsocket} = getState().app;
     try {
       rsocket.fireAndForget({
         data: {username, message},
@@ -87,4 +93,32 @@ export function sendMessage(message) {
       // todo
     }
   };
+}
+
+export function getUsersSession(socket) {
+  console.log('getUsersSession');
+    try {
+      socket.requestStream(
+        {
+          metadata: String.fromCharCode("users.stream".length) + "users.stream"
+        }).subscribe({
+        onNext: (value) => {
+          console.log(value, 'getUsersSession next');
+          // dispatch({type: GET_LIST_USER, payload: value.data});
+        },
+        onError: (err) => {
+          console.log(err, 'getUsersSession err');
+        },
+        onComplete: () => {
+          console.log('getUsersSession complete');
+        },
+        onSubscribe: (sub) => {
+          console.log('getUsersSession onSubscribe', sub);
+          sub.request(1000)
+        }
+      });
+    } catch (e) {
+      console.log(e, 'catch');
+      // todo
+    }
 }

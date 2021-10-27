@@ -58,6 +58,7 @@ export default () => {
           onKeyDown={handleKeyDown}
           value={message}
           onChange={onChange}
+          data-gramm="false"
         />
         <button className="chatbox-inputarea_button" onClick={send}>
           Send
