@@ -31,7 +31,9 @@ function App() {
                 {user.username}
               </div>
             </div>
-            <UserList/>
+            <div className="chat-box_wrapper-list">
+              <UserList/>
+            </div>
           </div>
           <div className="chat-box_chat">
             <Chat/>
