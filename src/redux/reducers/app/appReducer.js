@@ -3,9 +3,9 @@ import {CONNECT, CREATE_MESSAGE_STREAM, CREATE_USER, GET_LIST_USER, RECEIVE_MESS
 const initialState = {
   rsocket: null,
   messages: [],
-  username: null,
+  user: null,
   subscription: null,
-  users: [{ username: 'Group chat'}, { username: 'Anastasia'}, { username: 'Andrei'},{ username: 'Ivan'}],
+  users: [],
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -15,7 +15,7 @@ export const appReducer = (state = initialState, action) => {
     case CREATE_MESSAGE_STREAM:
       return { ...state, subscription: action.payload };
     case CREATE_USER:
-      return { ...state, username: action.payload };
+      return { ...state, user: action.payload };
     case RECEIVE_MESSAGE:
       return { ...state, messages: [...state.messages, action.payload] };
     case GET_LIST_USER:

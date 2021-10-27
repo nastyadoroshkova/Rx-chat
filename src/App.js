@@ -10,14 +10,14 @@ import UserList from "./components/UserList";
 
 function App() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.app.username);
+  const user = useSelector((state) => state.app.user);
 
   useEffect(() => {
     dispatch(createConnection());
   }, []);
 
   const body = () => {
-    if(!username){
+    if(!user){
       return <UserCreationForm />
     } else {
       return (
@@ -28,14 +28,14 @@ function App() {
                 <img src="images/image_user.png"/>
               </div>
               <div className="chat-box_userInfo-name">
-                {username}
+                {user.username}
               </div>
             </div>
             <UserList/>
           </div>
           <div className="chat-box_chat">
             <Chat/>
-          </div>
+                </div>
         </div>
       )
     }

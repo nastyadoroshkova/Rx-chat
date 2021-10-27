@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import { useDispatch } from "react-redux";
 import {startSession} from "../redux/actions";
 
-export default () => {
+const UserCreationForm = () => {
   const [username, setUserName] = useState('');
   const dispatch = useDispatch();
   const usernameInput = useRef();
@@ -49,3 +49,5 @@ export default () => {
     </div>
   );
 }
+
+export default UserCreationForm;

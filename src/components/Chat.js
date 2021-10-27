@@ -2,12 +2,12 @@ import React, {useState, useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendMessage} from "../redux/actions";
 
-export default () => {
+const Chat = () => {
   const dispatch = useDispatch();
   const messageInput = useRef(null);
   const [message, setMessage] = useState('');
   const messages = useSelector((state) => state.app.messages);
-  const username = useSelector((state) => state.app.username);
+  const user = useSelector((state) => state.app.user);
 
   useEffect(() => {
     messageInput.current.focus();
@@ -36,11 +36,15 @@ export default () => {
         <div className="chatbox-messages">
           {messages.map((item) => {
             return (
-              <div className={"chatbox-messages_area"}>
+              <div key={item.user.id} className={"chatbox-messages_area"}>
                 <div>
-                  <div className="chatbox-messages_user">
-                    <div>{username !== item.username ? item.username : "You"}</div>
-                  </div>
+                  {
+                    item.user ? (
+                      <div className="chatbox-messages_user">
+                        <div>{user.username !== item.user.username ? item.user.username : "You"}</div>
+                      </div>
+                    ) : null
+                  }
                   <div className="chatbox-messages_message" key={item.message.length}>
                     <div>{item.message} </div>
                   </div>
@@ -67,3 +71,5 @@ export default () => {
     </div>
   );
 }
+
+export default Chat;

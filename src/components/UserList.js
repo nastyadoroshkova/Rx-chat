@@ -1,13 +1,13 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 
-export default () => {
+const UserList = () => {
   const users = useSelector((state) => state.app.users);
   return (
     <div>
       {users.map((item) => {
         return (
-          <div className="chatbox-users_area">
+          <div key={item.id} className="chatbox-users_area">
             <div className="chatbox-users_box">
               <div className="chatbox-users_user">
                 <div className="chatbox-users_username">{item.username}</div>
@@ -23,3 +23,5 @@ export default () => {
     </div>
   );
 }
+
+export default UserList;
