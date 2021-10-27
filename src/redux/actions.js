@@ -13,7 +13,6 @@ import {
   RSocketClient
 } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
-import { uid } from 'uid';
 
 const configClient = () => {
   return new RSocketClient({
@@ -51,7 +50,7 @@ export function createConnection() {
 }
 
 export function startSession(username) {
-  const user = {id: uid(4).toString(), username: username};
+  const user = {id: Math.random().toString(), username: username};
 
   return (dispatch, getState) => {
     dispatch({type: CREATE_USER, payload: user});
