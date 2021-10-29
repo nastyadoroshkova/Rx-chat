@@ -1,0 +1,35 @@
+.wrapper {
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+}
+
+.userImg img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid #fff;
+}
+
+.userInfo {
+  flex: 3;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.message,
+.time {
+  flex: 1;
+  color: #b2b2b2;
+  font-size: 14px;
+  line-height:1.4;
+}
+
+.userInfo,
+.userTime {
+  margin-top: 6px;
+}

@@ -13,8 +13,7 @@ import {
   RSocketClient
 } from "rsocket-core";
 import RSocketWebSocketClient from "rsocket-websocket-client";
-
-const max_int = 2147483647;
+import {v4 as uuidv4} from "uuid";
 
 const configClient = () => {
   return new RSocketClient({
@@ -40,7 +39,6 @@ export function createConnection() {
     try {
       configClient().connect().then(
         (socket) => {
-          getUsersSession(socket, dispatch);
           dispatch({type: CONNECT, payload: socket});
         },
         (error) => console.log("Connection has been refused due to:: " + error)
@@ -52,7 +50,7 @@ export function createConnection() {
 }
 
 export function startSession(username) {
-  const user = {id: Math.random().toString(), username: username};
+  const user = {id: uuidv4(), username: username};
 
   return (dispatch, getState) => {
     dispatch({type: CREATE_USER, payload: user});
@@ -62,7 +60,8 @@ export function startSession(username) {
         metadata: String.fromCharCode("users.login".length) + "users.login"
       }).subscribe({
         onComplete: (response) => {
-          console.log("my user: " + response)//todo save redux user
+          console.log("my user: " + response)
+          getUsersSession(rsocket, dispatch);
         }
       });
 
@@ -82,24 +81,20 @@ export function startSession(username) {
         },
         onSubscribe: (sub) => {
           dispatch({type: CREATE_MESSAGE_STREAM, payload: sub});
-          sub.request(max_int)
+          sub.request(1000)
         }
       });
   };
 }
 
 export function sendMessage(message) {
-  console.log('sendMessage');
+  console.log('sendMessage', message);
   return async (dispatch, getState) => {
     const {user, rsocket} = getState().app;
-    try {
-      rsocket.fireAndForget({
-        data: {user, message},
-        metadata: String.fromCharCode("message.send".length) + "message.send"
-      });
-    } catch (e) {
-      // todo
-    }
+    rsocket.fireAndForget({
+      data: {user, message},
+      metadata: String.fromCharCode("message.send".length) + "message.send"
+    });
   };
 }
 
@@ -121,7 +116,7 @@ export function getUsersSession(socket, dispatch) {
       },
       onSubscribe: (sub) => {
         console.log('getUsersSession onSubscribe', sub);
-        sub.request(max_int)
+        sub.request(1000)
       }
     });
 }

@@ -1,0 +1,33 @@
+.box {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px 10px 10px 20px;
+  border-radius: 20px;
+}
+
+.textarea {
+  flex: 10;
+  overflow: scroll;
+  resize: none;
+  border-color: transparent;
+
+  font-family: Red hat Display, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height:1.4;
+}
+
+.btnRow {
+  flex: 2;
+  align-self: end;
+  display: flex;
+  justify-content: flex-end;
+  height: 34px;
+}
+
+.button {
+  cursor: pointer;
+  border-color: transparent;
+  background-color: transparent;
+}
