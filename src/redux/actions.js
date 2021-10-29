@@ -28,7 +28,7 @@ const configClient = () => {
       metadataMimeType: MESSAGE_RSOCKET_ROUTING.string
     },
     transport: new RSocketWebSocketClient({
-      url: "wss://green-chat-33jco.ondigitalocean.app",
+      url: "wss://green-chat-hpthl.ondigitalocean.app",
     }),
   });
 };
