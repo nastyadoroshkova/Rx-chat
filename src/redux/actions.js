@@ -22,8 +22,8 @@ const configClient = () => {
       metadata: IdentitySerializer
     },
     setup: {
-      keepAlive: 180000,
-      lifetime: 360000,
+      keepAlive: 10000,
+      lifetime: 30000,
       dataMimeType: APPLICATION_JSON.string,
       metadataMimeType: MESSAGE_RSOCKET_ROUTING.string
     },
@@ -61,7 +61,7 @@ export function startSession(username) {
       }).subscribe({
         onComplete: (response) => {
           console.log("my user: " + response)
-          getUsersSession(rsocket, dispatch);
+          getUsersSession(rsocket, dispatch, response);
         }
       });
 
@@ -98,10 +98,11 @@ export function sendMessage(message) {
   };
 }
 
-export function getUsersSession(socket, dispatch) {
+export function getUsersSession(socket, dispatch, user) {
   console.log('getUsersSession');
     socket.requestStream(
       {
+        data: user.data,
         metadata: String.fromCharCode("users.stream".length) + "users.stream"
       }).subscribe({
       onNext: (value) => {
