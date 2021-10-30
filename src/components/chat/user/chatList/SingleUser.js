@@ -1,8 +1,8 @@
 import React from "react";
 
-import styles from './SingleChat.module.scss';
+import styles from './SingleUser.module.scss';
 
-const SingleChat = ({item}) => {
+const SingleUser = ({item}) => {
   return (
     <div className={styles.wrapper}>
       <div style={{backgroundColor: item.color}} className={styles.userImg}>
@@ -19,4 +19,4 @@ const SingleChat = ({item}) => {
   );
 }
 
-export default SingleChat;
+export default SingleUser;
