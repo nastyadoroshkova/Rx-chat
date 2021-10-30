@@ -1,7 +1,11 @@
 .wrapper {
   padding: 20px;
-  cursor: pointer;
   display: flex;
+}
+
+.wrapper:hover {
+  background-color: #f7f7f79c;
+  cursor: pointer;
 }
 
 .userImg {

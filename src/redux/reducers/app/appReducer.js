@@ -1,7 +1,17 @@
-import {CONNECT, CREATE_MESSAGE_STREAM, CREATE_USER, GET_LIST_USER, RECEIVE_MESSAGE} from "../../actionTypes";
+import {
+  CONNECT,
+  CREATE_MESSAGE_STREAM,
+  CREATE_USER,
+  SET_USER_LIST,
+  RECEIVE_MESSAGE,
+  GET_COMMON_MESSAGES,
+  GET_DIRECT_MESSAGES,
+} from "../../actionTypes";
 
 const initialState = {
   rsocket: null,
+  commonMessageList: [],
+  directMessageList: [],
   messages: [],
   user: null,
   subscription: null,
@@ -18,8 +28,12 @@ export const appReducer = (state = initialState, action) => {
       return { ...state, user: action.payload };
     case RECEIVE_MESSAGE:
       return { ...state, messages: [...state.messages, action.payload] };
-    case GET_LIST_USER:
+    case SET_USER_LIST:
       return { ...state, users: action.payload };
+    case GET_COMMON_MESSAGES:
+      return { ...state, commonMessageList: action.payload };
+    case GET_DIRECT_MESSAGES:
+      return { ...state, directMessageList: action.payload };
     default:
       return state;
   }
