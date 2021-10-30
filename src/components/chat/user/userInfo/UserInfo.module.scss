@@ -10,11 +10,16 @@
   text-align: center;
 }
 
-.personalImg img{
-  height: 80px;
-  width: 80px;
+.personalImg {
+  width: 30px;
+  padding: 12px 17px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
   border-radius: 50%;
-  border: 3px solid #fff;
+  margin: 0 auto 15px auto;
+  background-color: #79d3f3;
+  color: #fff;
 }
 
 .name {

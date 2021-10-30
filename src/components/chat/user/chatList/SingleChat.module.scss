@@ -4,12 +4,17 @@
   display: flex;
 }
 
-.userImg img {
-  height: 50px;
-  width: 50px;
+.userImg {
+  text-align: center;
+  font-weight: bold;
+  font-size: 19px;
   border-radius: 50%;
+  line-height: 40px;
+  height: 40px;
+  width: 40px;
   margin-right: 10px;
-  border: 1px solid #fff;
+  background-color: #79d3f3;
+  color: #fff;
 }
 
 .userInfo {
@@ -27,9 +32,4 @@
   color: #b2b2b2;
   font-size: 14px;
   line-height:1.4;
-}
-
-.userInfo,
-.userTime {
-  margin-top: 6px;
 }

@@ -11,8 +11,8 @@ const UserInfo = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.personalInfo}>
-        <div className={styles.personalImg}>
-          <img src="images/1.jpg"/>
+        <div style={{backgroundColor: user.color}} className={styles.personalImg}>
+          {user.username?.charAt(0).toUpperCase()}
         </div>
         <div className={styles.name}>
           {user.username}

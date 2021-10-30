@@ -1,21 +1,38 @@
+.wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin: 20px 0;
+}
+
+.userImg {
+  text-align: center;
+  font-weight: bold;
+  font-size: 19px;
+  border-radius: 50%;
+  line-height: 40px;
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  background-color: #79d3f3;
+  color: #fff;
+}
+
 .user {
   display: flex;
   font-weight: bold;
   font-size: 14px;
-  margin-left: 15px;
 }
 
 .message {
   box-sizing: border-box;
   padding: 0.5rem 1rem;
-  margin: 0.5rem 1rem 1rem;
+  margin-top: 0.5rem;
   background: #FFF;
   border-radius: 1.125rem 1.125rem 1.125rem 0;
   min-height: 2.25rem;
   width: fit-content;
-  max-width: 66%;
 
   box-shadow:
           0 0 2rem rgba(black, 0.075),
-          0rem 1rem 1rem -1rem rgba(black, 0.1);
+          0 1rem 1rem -1rem rgba(black, 0.1);
 }
