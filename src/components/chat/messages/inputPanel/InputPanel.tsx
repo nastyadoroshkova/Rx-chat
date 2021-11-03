@@ -1,23 +1,23 @@
 import React, {useEffect, useRef} from "react";
 
-import {useDispatch} from "react-redux";
 import TextareaAutosize from 'react-textarea-autosize';
 
-import {sendMessage} from "redux/actions";
+import {sendMessage} from "store/actions";
 import {SendSvg} from 'assets/svg';
 import {EmojiSvg} from 'assets/svg';
 
 import styles from './InputPanel.module.scss';
+import {useDispatch} from "react-redux";
 
-const InputPanel = () => {
-  const inputRef = useRef(null);
+const InputPanel:React.FC = () => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current!.focus();
   }, []);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       send();
@@ -25,10 +25,10 @@ const InputPanel = () => {
   }
 
   const send = () => {
-    const message = inputRef.current.value.trim();
+    const message = inputRef.current!.value.trim();
     if (message !== '') {
       dispatch(sendMessage(message));
-      inputRef.current.value = '';
+      inputRef.current!.value = '';
     }
   }
 

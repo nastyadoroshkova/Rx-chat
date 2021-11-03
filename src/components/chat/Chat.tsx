@@ -6,7 +6,7 @@ import InputPanel from "./messages/inputPanel/InputPanel";
 import styles from './Chat.module.scss';
 import UserInfo from "./user/userInfo/UserInfo";
 
-const Chat = () => {
+const Chat:React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <UserInfo/>

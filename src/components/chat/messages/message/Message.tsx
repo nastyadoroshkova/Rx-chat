@@ -1,11 +1,15 @@
 import React from "react";
 
+import styles from "./Message.module.scss";
+import {IMessage} from "interfaces";
 import {useSelector} from "react-redux";
 
-import styles from "./Message.module.scss";
+type PropsType = {
+    item: IMessage
+}
 
-const Message = ({item}) => {
-  const user = useSelector((state) => state.app.user);
+const Message: React.FC<PropsType> = ({item}) => {
+  const user = useSelector((state:any) => state.user.user);
   const isSelf = (user.id === item.fromUser.id);
 
   return (

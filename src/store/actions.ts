@@ -12,9 +12,12 @@ import {
   MESSAGE_RSOCKET_ROUTING,
   RSocketClient
 } from "rsocket-core";
-import RSocketWebSocketClient from "rsocket-websocket-client";
 
-let currentSocket = null;
+import RSocketWebSocketClient from "rsocket-websocket-client";
+import {ActionType, AppStateType} from "./index";
+import {Dispatch} from "redux";
+import {IUser} from "../interfaces";
+import {Payload, ReactiveSocket} from "rsocket-types";
 
 const configConnection = () => {
   return new RSocketClient({
@@ -35,27 +38,25 @@ const configConnection = () => {
 };
 
 export function createConnection() {
-  return async (dispatch) => {
+  return async (dispatch:Dispatch<ActionType>) => {
     configConnection().connect().then(
-      (socket) => {
+      (socket:ReactiveSocket<any, any>) => {
         dispatch({type: CONNECT, payload: socket});
       },
-      (error) => console.log("Connection has been refused due to:: " + error)
+      (error:Error) => console.log("Connection has been refused due to:: " + error)
     );
   };
 }
 
-export function startSession(username) {
-  return (dispatch, getState) => {
+export function startSession(username:string) {
+  return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
       const {rsocket} = getState().app;
-      currentSocket = rsocket;
       rsocket.requestResponse({
         data: { username: username },
         metadata: String.fromCharCode("users.login".length) + "users.login"
       }).subscribe({
-        onComplete: (data) => {
+        onComplete: (data:Payload<any, any>) => {
           const user = JSON.parse(JSON.stringify(data.data));
-          console.log("my user: ", user);
           dispatch({type: CREATE_USER, payload: user});
           connectToUserListSession(rsocket, dispatch, user);
           connectToMessageSession(rsocket, dispatch, user);
@@ -64,9 +65,9 @@ export function startSession(username) {
   };
 }
 
-const getShortInfo = (userId) => {
+const getShortInfo = (userId:string, rsocket: ReactiveSocket<any, any>) => {
   return new Promise((resolve) => {
-    currentSocket.requestResponse({
+    rsocket.requestResponse({
       data: { userId: userId },
       metadata: String.fromCharCode("users.short.info".length) + "users.short.info"
     }).subscribe({
@@ -77,17 +78,17 @@ const getShortInfo = (userId) => {
   })
 }
 
-const connectToMessageSession = (socket, dispatch, user) => {
+const connectToMessageSession = (socket:ReactiveSocket<any, any>, dispatch:Dispatch<ActionType>, user:IUser) => {
   socket.requestStream(
     {
       data: { userId: user.id },
       metadata: String.fromCharCode("messages.stream".length) + "messages.stream"
     }).subscribe({
     onNext: (value) => {
-      getShortInfo(value.data.fromUserId).then(({data}) => {
+      getShortInfo(value.data.fromUserId, socket).then(({data}:any) => {
         const fromUser = data;
         if(value.data.toUserId) {
-          getShortInfo(value.data.toUserId).then(({data}) => {
+          getShortInfo(value.data.toUserId, socket).then(({data}:any) => {
             const toUser = data;
             const message = {message: value.data.message, timestamp: value.data.timestamp, fromUser, toUser};
             dispatch({type: RECEIVE_MESSAGE, payload: message});
@@ -98,7 +99,7 @@ const connectToMessageSession = (socket, dispatch, user) => {
         }
       });
     },
-    onError: (err) => {
+    onError: (err:Error) => {
       console.log(err, 'err');
     },
     onComplete: () => {},
@@ -109,7 +110,7 @@ const connectToMessageSession = (socket, dispatch, user) => {
   });
 }
 
-const connectToUserListSession = (socket, dispatch, user) => {
+const connectToUserListSession = (socket:ReactiveSocket<any, any>, dispatch: Dispatch<ActionType>, user: IUser) => {
     socket.requestStream(
       {
         data: { userId: user.id },
@@ -118,7 +119,7 @@ const connectToUserListSession = (socket, dispatch, user) => {
       onNext: (value) => {
         dispatch({type: SET_USER_LIST, payload: value.data});
       },
-      onError: (err) => {
+      onError: (err:Error) => {
         console.log(err);
       },
       onComplete: () => {},
@@ -128,9 +129,11 @@ const connectToUserListSession = (socket, dispatch, user) => {
     });
 }
 
-export function sendMessage(message) {
-  return (dispatch, getState) => {
-    const {user, rsocket} = getState().app;
+export function sendMessage(message:string) {
+  return (dispatch: Dispatch<ActionType>, getState: () => AppStateType) => {
+    const {rsocket} = getState().app;
+    const {user} = getState().user;
+
     rsocket.fireAndForget({
       data: { fromUserId: user.id, toUserId: null, message: message},
       metadata: String.fromCharCode("message.send".length) + "message.send"
@@ -138,6 +141,6 @@ export function sendMessage(message) {
   };
 }
 
-export function openChat(userId) {
-
+export function openChat(id: string) {
+  console.log(id, 'open chat')
 }

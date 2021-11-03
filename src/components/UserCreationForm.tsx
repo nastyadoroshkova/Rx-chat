@@ -1,14 +1,14 @@
 import React, {useRef, useState, useEffect} from 'react';
-import { useDispatch } from "react-redux";
-import {startSession} from "../redux/actions";
+import {startSession} from "../store/actions";
+import {useDispatch} from "react-redux";
 
-const UserCreationForm = () => {
+const UserCreationForm:React.FC = () => {
   const [username, setUserName] = useState('');
   const dispatch = useDispatch();
-  const usernameInput = useRef();
+  const usernameInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    usernameInput.current.focus();
+    usernameInput.current!.focus();
   }, [])
 
   const start = () => {
@@ -17,7 +17,7 @@ const UserCreationForm = () => {
     }
   }
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       start();
     }

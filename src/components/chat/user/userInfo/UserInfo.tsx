@@ -1,12 +1,12 @@
 import React from "react";
 
 import ChatList from "../chatList/ChatList";
-import {useSelector} from "react-redux";
 
 import styles from './UserInfo.module.scss';
+import {useSelector} from "react-redux";
 
-const UserInfo = () => {
-  const user = useSelector((state) => state.app.user);
+const UserInfo:React.FC = () => {
+  const user = useSelector((state:any) => state.user.user);
 
   return (
     <div className={styles.wrapper}>

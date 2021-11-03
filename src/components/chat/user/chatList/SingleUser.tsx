@@ -1,10 +1,15 @@
 import React from "react";
 
 import styles from './SingleUser.module.scss';
+import {openChat} from "store/actions";
+import {IUser} from "interfaces";
 import {useDispatch} from "react-redux";
-import {openChat} from "../../../../redux/actions";
 
-const SingleUser = ({item}) => {
+type PropsType = {
+    item: IUser
+}
+
+const SingleUser:React.FC<PropsType> = ({item}) => {
   const dispatch = useDispatch();
 
   return (

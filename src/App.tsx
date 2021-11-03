@@ -1,15 +1,16 @@
 import React, {useEffect} from "react";
 
 import Chat from "./components/chat/Chat";
-import { createConnection } from './redux/actions';
+import { createConnection } from './store/actions';
 import {useDispatch, useSelector} from "react-redux";
 import UserCreationForm from "./components/UserCreationForm";
 
 import "./App.scss";
 
-function App() {
+const App: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state:any) => state.user.user);
+  console.log(user, 'user');
 
   useEffect(() => {
     dispatch(createConnection());
@@ -18,7 +19,7 @@ function App() {
   return (
     <div className="app">
       {
-        user ? <Chat/> : <UserCreationForm />
+        user.id ? <Chat/> : <UserCreationForm />
       }
     </div>
   );
