@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from "react";
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-import {sendMessage} from "store/actions";
-import {SendSvg} from 'assets/svg';
-import {EmojiSvg} from 'assets/svg';
+import {sendMessage} from "../../../../store/actions";
+import {SendSvg} from '../../../../assets/svg';
+import {EmojiSvg} from '../../../../assets/svg';
 
 import styles from './InputPanel.module.scss';
 import {useDispatch} from "react-redux";
