@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./Message.module.scss";
-import {IMessage} from "interfaces";
+import {IMessage} from "../../../../interfaces";
 import {useSelector} from "react-redux";
 
 type PropsType = {

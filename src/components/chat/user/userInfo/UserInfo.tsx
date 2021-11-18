@@ -1,6 +1,6 @@
 import React from "react";
 
-import ChatList from "../chatList/ChatList";
+import ChatInfoList from "../chatList/ChatInfoList";
 
 import styles from './UserInfo.module.scss';
 import {useSelector} from "react-redux";
@@ -19,7 +19,7 @@ const UserInfo:React.FC = () => {
         </div>
       </div>
       <div className={styles.chatList}>
-        <ChatList/>
+        <ChatInfoList/>
       </div>
     </div>
   );

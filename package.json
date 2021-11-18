@@ -4,23 +4,24 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/redux": "^3.6.0",
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/redux": "^3.6.31",
     "@types/rsocket-core": "^0.0.7",
     "@types/rsocket-types": "^0.0.3",
     "@types/rsocket-websocket-client": "^0.0.4",
+    "eslint-config-react-app": "^6.0.0",
     "prettier": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-redux": "^7.2.5",
-    "react-scripts": "4.0.3",
+    "react-redux": "^7.2.6",
+    "react-scripts": "^4.0.3",
     "react-textarea-autosize": "^8.3.3",
     "react-typescript": "^1.0.0",
-    "redux": "^4.1.1",
-    "redux-thunk": "^2.3.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.0",
     "rsocket-core": "^0.0.27",
     "rsocket-flowable": "^0.0.27",
     "rsocket-rxjs": "^0.1.3",
@@ -31,7 +32,7 @@
     "sass": "^1.43.4",
     "source-map-explorer": "^2.5.2",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1",
+    "web-vitals": "^2.1.2",
     "yarn": "^1.22.17"
   },
   "scripts": {
@@ -60,10 +61,8 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.6",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
-    "typescript": "^4.4.4"
+    "@types/react": "^17.0.35",
+    "@types/react-dom": "^17.0.11",
+    "typescript": "^4.5.2"
   }
 }
