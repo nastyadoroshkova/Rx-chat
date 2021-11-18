@@ -1,8 +1,8 @@
 import React from "react";
 
 import styles from './SingleUser.module.scss';
-import {openChat} from "store/actions";
-import {IUser} from "interfaces";
+import {openChat} from "../../../../store/actions";
+import {IUser} from "../../../../interfaces";
 import {useDispatch} from "react-redux";
 
 type PropsType = {

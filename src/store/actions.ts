@@ -53,7 +53,7 @@ export function startSession(username:string) {
       const {rsocket} = getState().app;
       rsocket.requestResponse({
         data: { username: username },
-        metadata: String.fromCharCode("users.login".length) + "users.login"
+        metadata: String.fromCharCode("user.login".length) + "user.login"
       }).subscribe({
         onComplete: (data:Payload<any, any>) => {
           const user = JSON.parse(JSON.stringify(data.data));
