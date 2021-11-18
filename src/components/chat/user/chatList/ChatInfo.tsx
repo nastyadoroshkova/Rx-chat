@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from './ChatInfo.module.scss';
-import {IChat} from "interfaces";
+import {IChat} from "../../../../interfaces";
 
 type PropsType = {
     item: IChat
