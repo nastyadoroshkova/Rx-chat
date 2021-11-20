@@ -1,0 +1,26 @@
+.inputWrapper {
+  display: flex;
+  margin: 20px;
+  border-radius: 16px;
+  background-color: #F9F9F9;
+  height: 24px;
+  padding: 12px 10px 8px 16px;
+}
+
+.input {
+  background: transparent !important;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+}
+
+.action {
+  cursor: pointer;
+  padding: 3px 8px 0;
+}
+
+.list {
+  max-height: 470px;
+  overflow: scroll;
+  margin-right: 10px;
+}

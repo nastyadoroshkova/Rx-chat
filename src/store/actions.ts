@@ -1,9 +1,11 @@
 import {
   CONNECT,
-  CREATE_USER,
-  SET_USER_LIST,
   CREATE_MESSAGE_STREAM,
-  SET_CHAT_LIST
+  CREATE_USER,
+  SEARCH_USER,
+  SET_CHAT_LIST,
+  SET_USER_LIST,
+  SET_CURRENT_CHAT,
 } from './actionTypes';
 import {
   APPLICATION_JSON,
@@ -16,7 +18,7 @@ import {
 import RSocketWebSocketClient from "rsocket-websocket-client";
 import {ActionType, AppStateType} from "./index";
 import {Dispatch} from "redux";
-import {IUser} from "../interfaces";
+import {IChat, IUser} from "../interfaces";
 import {Payload, ReactiveSocket} from "rsocket-types";
 
 const configConnection = () => {
@@ -181,3 +183,59 @@ const connectToUserListSession = (socket:ReactiveSocket<any, any>, dispatch: Dis
 //       });
 //   }
 // }
+
+export function searchUser(search:string) {
+  return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
+    const {rsocket} = getState().app;
+      rsocket.requestResponse({
+        data: { search: search },
+        metadata: String.fromCharCode("user.search".length) + "user.search"
+      }).subscribe({
+        onComplete: (result:any) => dispatch({type: SEARCH_USER, payload: result.data})
+      });
+  }
+}
+
+const getChatByUser = (userId:number, chats: Array<IChat>) => {
+  return chats.find((item) => {
+    return (!item.group && item.users.includes(userId));
+  });
+}
+
+const createChat = (rsocket:any, friend:IUser, myUser:IUser) => {
+  console.log('createChat');
+  return new Promise((resolve) => {
+    rsocket.requestResponse({
+      data: { users: [friend.id, myUser.id], userId: myUser.id },
+      metadata: String.fromCharCode("chat.create".length) + "chat.create"
+    }).subscribe({
+      onComplete: (result:any) => resolve(result)
+    });
+  })
+}
+
+export function createChatWithUser(friend:IUser) {
+  return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
+    const {chats, rsocket} = getState().app;
+    const {user} = getState().user;
+    const chat = getChatByUser(friend.id, chats);
+    if(chat) {
+      // call to history
+      console.log('openCurrentChat 0', chat);
+      dispatch({type: SET_CURRENT_CHAT, payload: chat});
+    } else {
+      createChat(rsocket, friend, user).then((result:any) => {
+        dispatch({type: SET_CHAT_LIST, payload: result.data});
+        dispatch({type: SET_CURRENT_CHAT, payload: result.data});
+        console.log(result, 'result openCurrentChat');
+      })
+    }
+  }
+}
+
+export function openCurrentChat(chat:IChat) {
+  return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
+    // call to history
+    dispatch({type: SET_CURRENT_CHAT, payload: chat});
+  }
+}
