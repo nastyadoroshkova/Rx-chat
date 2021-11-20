@@ -3,6 +3,12 @@
   display: flex;
 }
 
+.selected {
+  padding: 20px;
+  display: flex;
+  background-color: #f7f7f79c;
+}
+
 .wrapper:hover {
   background-color: #f7f7f79c;
   cursor: pointer;

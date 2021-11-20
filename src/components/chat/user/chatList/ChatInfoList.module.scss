@@ -22,5 +22,19 @@
 .list {
   max-height: 470px;
   overflow: scroll;
-  margin-right: 10px;
+}
+
+.panel {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+}
+
+.panelTitle {
+  font-weight: bold;
+  color: #b0b0b0;
+}
+
+.panelIcons {
+  cursor: pointer;
 }

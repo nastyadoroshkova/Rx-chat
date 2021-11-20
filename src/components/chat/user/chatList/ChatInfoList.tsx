@@ -4,7 +4,7 @@ import ChatInfo from "./ChatInfo";
 import {IChat, IUser} from "../../../../interfaces";
 import {searchUser} from "../../../../store/actions";
 import UserInfo from "./UserInfo";
-import {SearchSvg, CrossSvg} from '../../../../assets/svg';
+import {SearchSvg, CrossSvg, OptionsSvg} from '../../../../assets/svg';
 
 import styles from './ChatInfoList.module.scss';
 
@@ -33,6 +33,16 @@ const ChatInfoList:React.FC = () => {
           { search.length ? <CrossSvg /> : <SearchSvg/> }
         </a>
       </div>
+        {
+            !search.length && (
+                <div className={styles.panel}>
+                    <div className={styles.panelTitle}>Last chats</div>
+                    <div className={styles.panelIcons}>
+                        <OptionsSvg />
+                    </div>
+                </div>
+            )
+        }
       <div className={styles.list}>
         {
           search.length ?
