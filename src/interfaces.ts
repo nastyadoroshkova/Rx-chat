@@ -1,12 +1,14 @@
 export interface IUser {
     id: number,
-    color: string,
+    color?: string,
     username: string,
 }
 
 export interface IMessage {
-    fromUser: IUser,
-    toUser?: any,
+    id: number,
+    chatId: number,
+    created: Date,
+    userId: number,
     message: string,
 }
 

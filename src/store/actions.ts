@@ -4,8 +4,7 @@ import {
   CREATE_USER,
   SEARCH_USER,
   SET_CHAT_LIST,
-  SET_USER_LIST,
-  SET_CURRENT_CHAT,
+  SET_CURRENT_CHAT, SET_CHAT_HISTORY, RESET_CURRENT_CHAT, UPDATE_USER_HASH,
 } from './actionTypes';
 import {
   APPLICATION_JSON,
@@ -19,7 +18,7 @@ import RSocketWebSocketClient from "rsocket-websocket-client";
 import {ActionType, AppStateType} from "./index";
 import {Dispatch} from "redux";
 import {IChat, IUser} from "../interfaces";
-import {Payload, ReactiveSocket} from "rsocket-types";
+import {ISubscription, ReactiveSocket} from "rsocket-types";
 
 const configConnection = () => {
   return new RSocketClient({
@@ -52,17 +51,17 @@ export function createConnection() {
 
 export function startSession(username:string) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-      const {rsocket} = getState().app;
+      const {rsocket}:any = getState().app;
       rsocket.requestResponse({
         data: { username: username },
         metadata: String.fromCharCode("user.login".length) + "user.login"
       }).subscribe({
-        onComplete: (data:Payload<any, any>) => {
+        onComplete: (data:any) => {
           const user = JSON.parse(JSON.stringify(data.data));
           dispatch({type: CREATE_USER, payload: user});
           connectToChatSession(rsocket, dispatch, user);
           // connectToUserListSession(rsocket, dispatch, user);
-          // connectToMessageSession(rsocket, dispatch, user);
+          connectToMessageSession(rsocket, dispatch, user);
         }
       });
   };
@@ -89,11 +88,11 @@ const connectToChatSession = (socket:ReactiveSocket<any, any>, dispatch: Dispatc
 
 export function sendMessage(message:string) {
   return (dispatch: Dispatch<ActionType>, getState: () => AppStateType) => {
-    const {rsocket} = getState().app;
+    const {rsocket, currentChat}:any = getState().app;
     const {user} = getState().user;
 
     rsocket.fireAndForget({
-      data: { fromUserId: user.id, toUserId: null, message: message},
+      data: { chatId: currentChat.id, userId: user.id, message: message},
       metadata: String.fromCharCode("message.send".length) + "message.send"
     });
   };
@@ -103,22 +102,11 @@ const connectToMessageSession = (socket:ReactiveSocket<any, any>, dispatch:Dispa
   socket.requestStream(
       {
         data: { userId: user.id },
-        metadata: String.fromCharCode("messages.stream".length) + "messages.stream"
+        metadata: String.fromCharCode("message.stream".length) + "message.stream"
       }).subscribe({
     onNext: (value) => {
-      // getShortInfo(value.data.fromUserId, socket).then(({data}:any) => {
-      //   const fromUser = data;
-      //   if(value.data.toUserId) {
-      //     getShortInfo(value.data.toUserId, socket).then(({data}:any) => {
-      //       const toUser = data;
-      //       const message = {message: value.data.message, timestamp: value.data.timestamp, fromUser, toUser};
-      //       dispatch({type: RECEIVE_MESSAGE, payload: message});
-      //     });
-      //   } else {
-      //     const message = {message: value.data.message, timestamp: value.data.timestamp, fromUser, toUser: null};
-      //     dispatch({type: RECEIVE_MESSAGE, payload: message});
-      //   }
-      // });
+      // dispatch({type: SET_CHAT_HISTORY, payload: value.data});
+      console.log(value.data, 'messageSession');
     },
     onError: (err:Error) => {
       console.log(err, 'err');
@@ -126,26 +114,6 @@ const connectToMessageSession = (socket:ReactiveSocket<any, any>, dispatch:Dispa
     onComplete: () => {},
     onSubscribe: (sub) => {
       dispatch({type: CREATE_MESSAGE_STREAM, payload: sub});
-      sub.request(1000)
-    }
-  });
-}
-
-const connectToUserListSession = (socket:ReactiveSocket<any, any>, dispatch: Dispatch<ActionType>, user: IUser) => {
-  socket.requestStream(
-      {
-        data: { userId: user.id },
-        metadata: String.fromCharCode("user.stream".length) + "user.stream"
-      }).subscribe({
-    onNext: (value) => {
-      console.log("user.stream", value, "user.stream");
-      dispatch({type: SET_USER_LIST, payload: value.data});
-    },
-    onError: (err:Error) => {
-      console.log(err);
-    },
-    onComplete: () => {},
-    onSubscribe: (sub) => {
       sub.request(1000)
     }
   });
@@ -186,7 +154,7 @@ const connectToUserListSession = (socket:ReactiveSocket<any, any>, dispatch: Dis
 
 export function searchUser(search:string) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-    const {rsocket} = getState().app;
+    const {rsocket}:any = getState().app;
       rsocket.requestResponse({
         data: { search: search },
         metadata: String.fromCharCode("user.search".length) + "user.search"
@@ -203,7 +171,6 @@ const getChatByUser = (userId:number, chats: Array<IChat>) => {
 }
 
 const createChat = (rsocket:any, friend:IUser, myUser:IUser) => {
-  console.log('createChat');
   return new Promise((resolve) => {
     rsocket.requestResponse({
       data: { users: [friend.id, myUser.id], userId: myUser.id },
@@ -216,7 +183,7 @@ const createChat = (rsocket:any, friend:IUser, myUser:IUser) => {
 
 export function createChatWithUser(friend:IUser) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-    const {chats, rsocket} = getState().app;
+    const {chats, rsocket}:any = getState().app;
     const {user} = getState().user;
     const chat = getChatByUser(friend.id, chats);
     if(chat) {
@@ -224,7 +191,13 @@ export function createChatWithUser(friend:IUser) {
       console.log('openCurrentChat 0', chat);
       dispatch({type: SET_CURRENT_CHAT, payload: chat});
     } else {
-      createChat(rsocket, friend, user).then((result:any) => {
+      createChat(rsocket, friend, user).then((result) => {
+        rsocket.fireAndForget({
+          data: { fromUserId: user.id, toUserId: friend.id, message: 'Hey! Let`s chat together' },
+          metadata: String.fromCharCode("message.send".length) + "message.send"
+        });
+        return result;
+      }).then((result:any) => {
         dispatch({type: SET_CHAT_LIST, payload: result.data});
         dispatch({type: SET_CURRENT_CHAT, payload: result.data});
         console.log(result, 'result openCurrentChat');
@@ -233,9 +206,50 @@ export function createChatWithUser(friend:IUser) {
   }
 }
 
+const getHistory = (socket:any, dispatch:Dispatch<ActionType>, chatId:number) => {
+  const limit = 10;
+  socket.requestStream(
+      {
+        data: { chatId, limit },
+        metadata: String.fromCharCode("message.history".length) + "message.history"
+      }).subscribe({
+    onNext: (value:any) => {
+      dispatch({type: SET_CHAT_HISTORY, payload: value.data});
+      console.log(value.data, 'getHistory onNext');
+    },
+    onError: (err:Error) => {
+      console.log(err, 'err');
+    },
+    onSubscribe: (sub:ISubscription) => {
+      sub.request(1000)
+    }
+  });
+}
+
 export function openCurrentChat(chat:IChat) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-    // call to history
+    const {rsocket} = getState().app;
+
+    resetCurrentChat(dispatch);
+    getHistory(rsocket, dispatch, chat.id);
     dispatch({type: SET_CURRENT_CHAT, payload: chat});
+  }
+}
+
+const resetCurrentChat = (dispatch:Dispatch<ActionType>) => {
+  dispatch({type: RESET_CURRENT_CHAT, payload: null});
+}
+
+export function getUserInfoById(userId:number) {
+  return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
+    const {rsocket}:any = getState().app;
+      rsocket.requestResponse({
+        data: { userId: userId },
+        metadata: String.fromCharCode("user.short.info".length) + "user.short.info"
+      }).subscribe({
+        onComplete: (data:any) => {
+          dispatch({type: UPDATE_USER_HASH, payload: data});
+        }
+      });
   }
 }

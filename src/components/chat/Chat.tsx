@@ -23,7 +23,7 @@ const Chat:React.FC = () => {
                       <InputPanel />
                   </div>
               ) :
-             <div className={styles.empty}>Please select the chat ...</div>
+             <div className={styles.empty}>Select a chat to start messaging</div>
           }
       </div>
     </div>

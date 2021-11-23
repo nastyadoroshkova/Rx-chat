@@ -1,15 +1,19 @@
 .wrapper {
-  height: 600px;
-  overflow: auto;
+  height: 560px;
   display: flex;
+  padding-bottom: 20px;
   flex-direction: column;
 }
 
 .messages {
+  margin: 0 1rem;
   display: flex;
-  margin: 1rem;
   flex-direction: column;
   justify-content: flex-end;
   min-height: 560px;
   margin-bottom: 15px;
+}
+
+.scrollable {
+  overflow: auto;
 }

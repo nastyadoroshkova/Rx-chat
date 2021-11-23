@@ -1,0 +1,22 @@
+.wrapper {
+  position: relative;
+}
+.options {
+  position: absolute;
+  background-color: #fff;
+  right: -10px;
+  box-shadow: 0 0 2rem rgb(0 0 0 / 8%), 0 1rem 1rem -1rem rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  text-align: center;
+  top: 30px;
+}
+.optionsItem {
+  padding: 15px 25px;
+  width: 140px;
+}
+.optionsItem:hover {
+  background: #39b773;
+  color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 0 2rem rgb(0 0 0 / 8%), 0 1rem 1rem -1rem rgb(0 0 0 / 10%);
+}

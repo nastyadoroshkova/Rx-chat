@@ -1,12 +1,14 @@
 import {
   CONNECT,
   CREATE_MESSAGE_STREAM,
+  RESET_CURRENT_CHAT,
   SEARCH_USER,
+  SET_CHAT_HISTORY,
   SET_CHAT_LIST,
-  SET_CURRENT_CHAT,
+  SET_CURRENT_CHAT, UPDATE_USER_HASH,
 } from "../actionTypes";
 import {ReactiveSocket} from "rsocket-types";
-import {IChat, IUser} from "../../interfaces";
+import {IChat, IMessage, IUser} from "../../interfaces";
 
 const initialState = {
   rsocket: {} as ReactiveSocket<any,any>,
@@ -14,6 +16,8 @@ const initialState = {
   chats: [] as Array<IChat>,
   userSearch: [] as Array<IUser>,
   currentChat: {} as IChat,
+  chatHistory: [] as Array<IMessage>,
+  usersHash: [] as Array<IUser>
 };
 
 export const appReducer = (state = initialState, action:AppActionType) => {
@@ -28,6 +32,12 @@ export const appReducer = (state = initialState, action:AppActionType) => {
       return { ...state, userSearch: action.payload };
     case SET_CURRENT_CHAT:
       return { ...state, currentChat: action.payload };
+    case SET_CHAT_HISTORY:
+      return { ...state, chatHistory: [...state.chatHistory, action.payload] };
+    case RESET_CURRENT_CHAT:
+      return { ...state, chatHistory: [], currentChat: null };
+    case UPDATE_USER_HASH:
+      return { ...state, usersHash: [...state.usersHash, action.payload] };
     default:
       return state;
   }
@@ -58,4 +68,21 @@ type SetCurrentChatType = {
   payload: IChat
 }
 
-export type AppActionType = ConnectType | ConnectMessageStreamType | SetChatListType | SearchUserType | SetCurrentChatType;
+type SetChatHistoryType = {
+  type: typeof SET_CHAT_HISTORY,
+  payload: IMessage
+}
+
+type ResetCurrentChat = {
+  type: typeof RESET_CURRENT_CHAT,
+  payload: any
+}
+
+type UpdateUserHash = {
+  type: typeof UPDATE_USER_HASH,
+  payload: any
+}
+
+export type AppActionType = ConnectType |
+    ConnectMessageStreamType | SetChatListType | SearchUserType |
+    SetCurrentChatType | SetChatHistoryType | ResetCurrentChat | UpdateUserHash;
