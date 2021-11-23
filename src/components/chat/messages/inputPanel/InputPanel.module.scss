@@ -9,7 +9,7 @@
 
 .textarea {
   flex: 10;
-  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   resize: none;
   border-color: transparent;
   font-family: Red hat Display, sans-serif;
