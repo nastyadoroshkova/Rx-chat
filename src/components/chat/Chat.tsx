@@ -16,7 +16,7 @@ const Chat:React.FC = () => {
       <UserInfo/>
       <div className={styles.chat}>
           {
-              currentChat.id ? (
+              currentChat?.id ? (
                   <div>
                       <div className={styles.chatName}>{currentChat.name}</div>
                       <MessageList/>

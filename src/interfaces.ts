@@ -9,6 +9,7 @@ export interface IMessage {
     chatId: number,
     created: Date,
     userId: number,
+    user?: IUser,
     message: string,
 }
 

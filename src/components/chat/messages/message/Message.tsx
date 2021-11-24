@@ -10,10 +10,15 @@ type PropsType = {
 const Message: React.FC<PropsType> = ({item}) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.userImg}>
-        <span>{item.userId}</span>
+      <div style={{backgroundColor: item.user?.color}} className={styles.userImg}>
+        <span>{item.user?.username?.charAt(0).toUpperCase()}</span>
       </div>
       <div>
+          <div className={styles.user}>
+              <div style={{color: item.user?.color}}>
+                  {item.user?.username}
+              </div>
+          </div>
         <div className={styles.message}>
           <div>{item.message} </div>
         </div>

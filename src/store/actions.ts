@@ -61,7 +61,7 @@ export function startSession(username:string) {
           dispatch({type: CREATE_USER, payload: user});
           connectToChatSession(rsocket, dispatch, user);
           // connectToUserListSession(rsocket, dispatch, user);
-          connectToMessageSession(rsocket, dispatch, user);
+          connectToMessageSession(rsocket, getState, dispatch, user);
         }
       });
   };
@@ -98,14 +98,19 @@ export function sendMessage(message:string) {
   };
 }
 
-const connectToMessageSession = (socket:ReactiveSocket<any, any>, dispatch:Dispatch<ActionType>, user:IUser) => {
+const connectToMessageSession = (socket:ReactiveSocket<any, any>, getState: () => AppStateType, dispatch:Dispatch<ActionType>, user:IUser) => {
   socket.requestStream(
       {
         data: { userId: user.id },
         metadata: String.fromCharCode("message.stream".length) + "message.stream"
       }).subscribe({
     onNext: (value) => {
-      // dispatch({type: SET_CHAT_HISTORY, payload: value.data});
+      const {currentChat, usersHash, rsocket}:any = getState().app;
+      if(value.data.chatId === currentChat.id) {
+        getUserShortInfo(rsocket, dispatch, usersHash, value.data.userId).then((result) => {
+          dispatch({type: SET_CHAT_HISTORY, payload: {...value.data, user: result}});
+        })
+      }
       console.log(value.data, 'messageSession');
     },
     onError: (err:Error) => {
@@ -137,20 +142,26 @@ const connectToMessageSession = (socket:ReactiveSocket<any, any>, dispatch:Dispa
 //   });
 // }
 
-
-// export function getUserShortInfo(userId:number) {
-//   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-//     const {rsocket} = getState().app;
-//       rsocket.requestResponse({
-//         data: { userId: userId },
-//         metadata: String.fromCharCode("user.short.info".length) + "user.short.info"
-//       }).subscribe({
-//         onComplete: (data:Payload<any, any>) => {
-//           dispatch({type: GET_USER_INFO, payload: data});
-//         }
-//       });
-//   }
-// }
+export function getUserShortInfo(rsocket:any, dispatch:Dispatch<ActionType>, userList:Array<IUser>, userId:number) {
+  return new Promise((resolve) => {
+    const user = userList.find((item:IUser) => item.id === userId);
+    console.log(user, '???')
+    if(!user){
+      rsocket.requestResponse({
+        data: { userId: userId },
+        metadata: String.fromCharCode("user.short.info".length) + "user.short.info"
+      }).subscribe({
+        onComplete: ({data}:any) => {
+          resolve(data);
+          dispatch({type: UPDATE_USER_HASH, payload: data});
+        }
+      });
+    }
+    else {
+      resolve(user);
+    }
+  });
+}
 
 export function searchUser(search:string) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
@@ -186,10 +197,11 @@ export function createChatWithUser(friend:IUser) {
     const {chats, rsocket}:any = getState().app;
     const {user} = getState().user;
     const chat = getChatByUser(friend.id, chats);
+    resetCurrentChat(dispatch);
+
     if(chat) {
-      // call to history
-      console.log('openCurrentChat 0', chat);
       dispatch({type: SET_CURRENT_CHAT, payload: chat});
+      getHistory(getState, dispatch, chat.id);
     } else {
       createChat(rsocket, friend, user).then((result) => {
         rsocket.fireAndForget({
@@ -200,22 +212,25 @@ export function createChatWithUser(friend:IUser) {
       }).then((result:any) => {
         dispatch({type: SET_CHAT_LIST, payload: result.data});
         dispatch({type: SET_CURRENT_CHAT, payload: result.data});
-        console.log(result, 'result openCurrentChat');
       })
     }
   }
 }
 
-const getHistory = (socket:any, dispatch:Dispatch<ActionType>, chatId:number) => {
+const getHistory = (getState: () => AppStateType, dispatch:Dispatch<ActionType>, chatId:number) => {
   const limit = 10;
-  socket.requestStream(
+  const {currentChat, usersHash, rsocket}:any = getState().app;
+  rsocket.requestStream(
       {
         data: { chatId, limit },
         metadata: String.fromCharCode("message.history".length) + "message.history"
       }).subscribe({
     onNext: (value:any) => {
-      dispatch({type: SET_CHAT_HISTORY, payload: value.data});
-      console.log(value.data, 'getHistory onNext');
+      if(value.data.chatId === currentChat.id) {
+        getUserShortInfo(rsocket, dispatch, usersHash, value.data.userId).then((result) => {
+          dispatch({type: SET_CHAT_HISTORY, payload: {...value.data, user: result}});
+        })
+      }
     },
     onError: (err:Error) => {
       console.log(err, 'err');
@@ -228,11 +243,9 @@ const getHistory = (socket:any, dispatch:Dispatch<ActionType>, chatId:number) =>
 
 export function openCurrentChat(chat:IChat) {
   return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
-    const {rsocket} = getState().app;
-
     resetCurrentChat(dispatch);
-    getHistory(rsocket, dispatch, chat.id);
     dispatch({type: SET_CURRENT_CHAT, payload: chat});
+    getHistory(getState, dispatch, chat.id);
   }
 }
 
