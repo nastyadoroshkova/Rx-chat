@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {startSession} from "../store/actions";
+import {startSession} from "../store/actions/appActions";
 import {useDispatch} from "react-redux";
 
 const UserCreationForm:React.FC = () => {

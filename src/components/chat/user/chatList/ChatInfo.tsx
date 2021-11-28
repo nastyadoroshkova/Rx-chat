@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from './ChatInfo.module.scss';
 import {IChat} from "../../../../interfaces";
-import {openCurrentChat} from "../../../../store/actions";
+import {openCurrentChat} from "../../../../store/actions/chatActions";
 import {useDispatch, useSelector} from "react-redux";
 
 type PropsType = {

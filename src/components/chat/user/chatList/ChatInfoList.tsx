@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import ChatInfo from "./ChatInfo";
 import {IChat, IUser} from "../../../../interfaces";
-import {searchUser} from "../../../../store/actions";
+import {searchUser} from "../../../../store/actions/userActions";
 import UserInfo from "./UserInfo";
 import {SearchSvg, CrossSvg} from '../../../../assets/svg';
 

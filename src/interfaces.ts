@@ -19,5 +19,5 @@ export interface IChat {
     name: string,
     group?: boolean,
     created: Date,
-    color: string,
+    color?: string,
 }

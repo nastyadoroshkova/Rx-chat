@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-import {sendMessage} from "../../../../store/actions";
+import {sendMessage} from "../../../../store/actions/messageActions";
 import {SendSvg} from '../../../../assets/svg';
 import {EmojiSvg} from '../../../../assets/svg';
 

@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 
 import Chat from "./components/chat/Chat";
-import { createConnection } from './store/actions';
 import {useDispatch, useSelector} from "react-redux";
 import UserCreationForm from "./components/UserCreationForm";
 
 import "./App.scss";
+import {createRsocketConnection} from "./store/actions/appActions";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const App: React.FC = () => {
   console.log(user, 'user');
 
   useEffect(() => {
-    dispatch(createConnection());
+    dispatch(createRsocketConnection());
   }, [dispatch]);
 
   return (

@@ -3,7 +3,7 @@ import React from "react";
 import styles from './ChatInfo.module.scss';
 import {IUser} from "../../../../interfaces";
 import {useDispatch} from "react-redux";
-import {createChatWithUser} from "../../../../store/actions";
+import {createChatWithUser} from "../../../../store/actions/chatActions";
 
 type PropsType = {
     item: IUser
