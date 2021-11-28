@@ -70,7 +70,7 @@ type SetCurrentChatType = {
 
 type SetChatHistoryType = {
   type: typeof SET_CHAT_HISTORY,
-  payload: IMessage
+  payload: any
 }
 
 type ResetCurrentChat = {
