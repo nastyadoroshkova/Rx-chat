@@ -34,11 +34,12 @@ const resetSelectedChat = (dispatch:Dispatch<ActionType>) => {
 const getHistory = (getState: () => AppStateType, dispatch:Dispatch<ActionType>, chatId:number) => {
     const limit = 10;
     const {currentChat, usersHash, rsocket}:any = getState().app;
+    const {user}:any = getState().user;
     rsocket.simpleRequestResponse(MESSAGE_HISTORY_ROUTE, { chatId, limit })
         .subscribe((data:any) => {
             data.forEach((message:IMessage) => {
                 if(message.chatId === currentChat.id) {
-                    getUserShortInfo(rsocket, dispatch, usersHash, message.userId).then((result) => {
+                    getUserShortInfo(rsocket, dispatch, usersHash, message.userId, user).subscribe((result) => {
                         dispatch({type: SET_CHAT_HISTORY, payload: {...message, user: result}});
                     })
                 }
@@ -74,7 +75,11 @@ const getChatInfoByUserId = (userId:number, chats: [IChat]) => {
 const createChat = (rsocket:any, friend:IUser, myUser:IUser) => {
   return new Promise((resolve) => {
     rsocket.simpleRequestResponse(
-        CHAT_CREATE_ROUTE, { users: [friend.id, myUser.id], userId: myUser.id })
+        CHAT_CREATE_ROUTE, { users: [friend.id, myUser.id] }, {
+            type: 'simple',
+            username: myUser.username,
+            password: 'pass'
+        })
         .subscribe((result:any) => resolve(result));
   })
 }

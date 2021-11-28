@@ -3,30 +3,20 @@ import {Dispatch} from "redux";
 import {IUser} from "../../interfaces";
 import {ActionType, AppStateType} from "../index";
 
-import {
-    SEARCH_USER,
-    UPDATE_USER_HASH
-} from "../actionTypes";
+import {SEARCH_USER, UPDATE_USER_HASH} from "../actionTypes";
 
-import {
-    USER_SEARCH_ROUTE,
-    USER_SHORT_INFO_ROUTE,
-} from "./routes";
+import {USER_SEARCH_ROUTE, USER_SHORT_INFO_ROUTE,} from "./routes";
+import {from, Observable, tap} from "rxjs";
 
-export function getUserShortInfo(rsocket:any, dispatch:Dispatch<ActionType>, userList:Array<IUser>, userId:number) {
-    return new Promise((resolve) => {
-        const user = userList.find((item:IUser) => item.id === userId);
-        if(!user){
-            rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE,{ userId: userId })
-                .subscribe((data:any) => {
-                    dispatch({type: UPDATE_USER_HASH, payload: data});
-                    resolve(data);
-                });
-        }
-        else {
-            resolve(user);
-        }
-    });
+export function getUserShortInfo(rsocket: any, dispatch: Dispatch<ActionType>, userList: Array<IUser>, userId: number, iam: IUser): Observable<IUser> {
+    const user = userList.find((item: IUser) => item.id === userId);
+    return !user
+        ? rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE, {userId: userId}, {
+            type: 'simple',
+            username: iam.username,
+            password: 'pass'
+        }).pipe(tap(found => dispatch({type: UPDATE_USER_HASH, payload: found})))
+        : from([user]);
 }
 
 export function searchUser(search:string) {
