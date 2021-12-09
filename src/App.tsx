@@ -2,9 +2,8 @@ import React, {useEffect} from "react";
 
 import Chat from "./components/chat/Chat";
 import {useDispatch, useSelector} from "react-redux";
-import UserCreationForm from "./components/UserCreationForm";
+import Login from "./components/pages/Login";
 
-import "./App.scss";
 import {createRsocketConnection} from "./store/actions/appActions";
 
 const App: React.FC = () => {
@@ -19,7 +18,7 @@ const App: React.FC = () => {
   return (
     <div className="app">
       {
-        user.id ? <Chat/> : <UserCreationForm />
+        user.id ? <Chat/> : <Login />
       }
     </div>
   );

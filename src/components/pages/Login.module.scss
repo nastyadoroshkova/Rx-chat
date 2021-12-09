@@ -1,0 +1,161 @@
+.wrapper {
+  background-color: #efefef2e;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 120px;
+  box-shadow: 0 4px 30px rgb(241 241 241 / 41%);
+  background-color: #fff;
+}
+
+.body {
+  height: calc(100vh - 190px);
+  padding: 100px 100px 0 120px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  max-height: 700px;
+  margin: 0 auto;
+}
+
+.left {
+  width: 50%;
+  padding-top: 10%;
+  max-height: 70vh;
+}
+
+
+.mainImg {
+  max-height: 620px;
+  padding-left: 15%;
+}
+
+.btnRow button {
+  background-color: #fff;
+  padding: 10px 30px;
+  border: none;
+  font-size: 16px;
+  color: #39b773;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnRow,
+.navigation {
+  align-self: center;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigationItem {
+  margin-right: 10px;
+  color: #282c34;
+  text-decoration: none;
+  font-weight: 400;
+  width: 100px;
+  text-align: center;
+}
+
+.navigationItem:hover {
+  font-weight: 600;
+}
+
+.logo {
+  color: #39B773;
+  text-align: center;
+  font-family: Arial Rounded MT Bold;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 37px;
+}
+
+.title {
+  text-align: center;
+  font-family: Arial Rounded MT Bold;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 37px;
+}
+
+.inputForm {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.input {
+  height: 32px;
+  border-color: #ccc;
+  border-width: 0 0 1px 0;
+  padding-left: 10px;
+  font-size: 16px;
+  width: 280px;
+  background-color: transparent;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.loginBtn {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  height: 36px;
+  width: 70px;
+  background-color: #39B773;
+  color: #fff;
+  border-radius: 8px;
+  border-color: transparent;
+  margin-left: 16px;
+}
+
+.inputWrapper {
+  display: flex;
+  font-style: normal;
+}
+
+@media (max-width: 768px){
+  .header {
+    padding: 30px 40px;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .body {
+    display: block;
+    padding: 50px 50px 0;
+  }
+
+  .left {
+    width: 100%;
+  }
+
+  .mainImg {
+    display: none;
+  }
+}
+
+@media (max-width: 1025px){
+  .header {
+    padding: 30px 60px;
+  }
+
+  .body {
+    padding: 50px 50px 0;
+  }
+
+  .mainImg {
+    width: 100%;
+    height: auto;
+    padding-left: 10%;
+  }
+}
