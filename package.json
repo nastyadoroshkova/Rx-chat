@@ -22,6 +22,7 @@
     "react-typescript": "^1.0.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
+    "reselect": "^4.1.5",
     "rsocket-core": "^0.0.27",
     "rsocket-flowable": "^0.0.27",
     "rsocket-rxjs": "^0.1.3",

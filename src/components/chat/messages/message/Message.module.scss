@@ -12,6 +12,7 @@
   line-height: 40px;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   margin-right: 10px;
   background-color: #79d3f3;
   color: #fff;
@@ -19,6 +20,7 @@
 
 .user {
   display: flex;
+  justify-content: space-between;
   font-weight: bold;
   font-size: 14px;
 }
@@ -31,8 +33,20 @@
   border-radius: 1.125rem 1.125rem 1.125rem 0;
   min-height: 2.25rem;
   width: fit-content;
-
+  max-width: 450px;
   box-shadow:
           0 0 2rem rgba(black, 0.075),
           0 1rem 1rem -1rem rgba(black, 0.1);
+}
+
+.datetime {
+  font-size: 12px;
+  color: rgba(147, 141, 141, 0.64);
+  margin-left: 10px;
+  font-weight: 400;
+  margin-right: 20px;
+}
+
+.box {
+  width: 100%;
 }

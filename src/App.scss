@@ -48,24 +48,6 @@
 }
 
 .app {
-  margin: 30px 120px;
-
-  @media (max-width: 1170px){
-    margin: 10px 80px;
-  }
-
-  @media (max-width: 979px){
-    margin: 10px 70px;
-  }
-
-  @media (max-width: 768px){
-    margin: 10px 50px;
-  }
-
-  @media (max-width: 600px){
-    margin: 10px 20px;
-  }
-
   .app-header {
     display: flex;
     justify-content: space-between;
@@ -95,9 +77,8 @@
   }
 
   .creation-form {
-    height: 80vh;
-    width: 80vw;
-    margin: 60px auto;
+    background-color: #efefef2e;
+    height: 100vh;
 
     .creation-form_title {
       text-align: center;
@@ -153,6 +134,120 @@
       padding-left: 10px;
       font-size: 16px;
       width: 280px;
+      background-color: transparent;
     }
   }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 120px;
+  box-shadow: 0 4px 30px rgb(241 241 241 / 41%);
+  background-color: #fff;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation-item {
+  margin-right: 10px;
+  color: #282c34;
+  text-decoration: none;
+  font-weight: 400;
+  width: 100px;
+  text-align: center;
+}
+
+.navigation-item:hover {
+  font-weight: 600;
+}
+
+.creation-form_title-span {
+  color: #39B773;
+  text-align: center;
+  font-family: Arial Rounded MT Bold;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 37px;
+}
+
+.login-btns,
+.navigation {
+  align-self: center;
+}
+
+.login-btns button{
+  background-color: #fff;
+  padding: 10px 30px;
+  border: none;
+  font-size: 16px;
+  color: #39b773;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.creation-form-body {
+  height: calc(100vh - 190px);
+  padding: 100px 100px 0 120px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  max-height: 700px;
+  margin: 0 auto;
+}
+
+.creation-form-image {
+  max-height: 620px;
+}
+
+.creation-form-left{
+  width: 50%;
+  padding-top: 10%;
+  max-height: 70vh;
+}
+
+.creation-form-right {
+  align-self: flex-end;
+}
+
+@media (max-width: 768px){
+  .header {
+    padding: 30px 40px;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .creation-form-body {
+    display: block;
+    padding: 50px 50px 0;
+  }
+
+  .creation-form-left {
+    width: 100%;
+  }
+  .creation-form-image {
+    display: none;
+  }
+}
+
+@media (max-width: 1025px){
+  .header {
+    padding: 30px 60px;
+  }
+
+  .creation-form-body {
+    padding: 50px 50px 0;
+  }
+
+  .creation-form-image {
+    width: 100%;
+    height: auto;
+    padding-left: 10%;
+  }
+
 }

@@ -8,6 +8,6 @@ export function sendMessage(message:string) {
     const {rsocket, currentChat}:any = getState().app;
     const {user} = getState().user;
 
-    rsocket.simpleRequestFNF(MESSAGE_SEND_ROUTE,{ chatId: currentChat.id, userId: user.id, message: message});
+    rsocket.simpleRequestFNF(MESSAGE_SEND_ROUTE,{ chatId: currentChat.id, userId: user.id, message: message}); // uuid, created???
   };
 }

@@ -1,6 +1,7 @@
 import {
     CREATE_USER,
     SET_USER_LIST,
+    UPDATE_USER_LIST,
 } from "../actionTypes";
 import {IUser} from "../../interfaces";
 
@@ -17,6 +18,8 @@ export const userReducer = (state = initialState, action:UserActionType):Initial
             return { ...state, user: action.payload };
         case SET_USER_LIST:
             return { ...state, users: action.payload };
+        case UPDATE_USER_LIST:
+            return { ...state, users: [...state.users, action.payload] };
         default:
             return state;
     }
@@ -32,4 +35,9 @@ type SetUserListType = {
     payload: Array<IUser>
 }
 
-export type UserActionType = CreateUserType | SetUserListType;
+type UpdateUserList = {
+    type: typeof UPDATE_USER_LIST,
+    payload: any
+}
+
+export type UserActionType = CreateUserType | SetUserListType | UpdateUserList;

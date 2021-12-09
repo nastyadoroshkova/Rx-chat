@@ -9,7 +9,7 @@ import {IMessage} from "../../interfaces";
 const initialState = {
     commonMessageList: [] as Array<IMessage>,
     directMessageList: [] as Array<IMessage>,
-    messages: [] as Array<IMessage>,
+    messages: {} as Array<IMessage>,
 }
 
 type InitialState = typeof initialState;
@@ -29,7 +29,7 @@ export const messageReducer = (state = initialState, action: MessageActionType):
 
 type ReceiveMessageType = {
     type: typeof RECEIVE_MESSAGE,
-    payload: IMessage
+    payload: any
 }
 
 type GetCommonMessagesType = {

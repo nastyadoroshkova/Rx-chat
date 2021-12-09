@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {IUser} from "../../interfaces";
 import {ActionType, AppStateType} from "../index";
 
-import {SEARCH_USER, UPDATE_USER_HASH} from "../actionTypes";
+import {SEARCH_USER, UPDATE_USER_LIST} from "../actionTypes";
 
 import {USER_SEARCH_ROUTE, USER_SHORT_INFO_ROUTE,} from "./routes";
 import {from, Observable, tap} from "rxjs";
@@ -15,7 +15,7 @@ export function getUserShortInfo(rsocket: any, dispatch: Dispatch<ActionType>, u
             type: 'simple',
             username: iam.username,
             password: 'pass'
-        }).pipe(tap(found => dispatch({type: UPDATE_USER_HASH, payload: found})))
+        }).pipe(tap(found => dispatch({type: UPDATE_USER_LIST, payload: found})))
         : from([user]);
 }
 
