@@ -32,7 +32,7 @@ export const appReducer = (state = initialState, action:AppActionType) => {
     case SET_CHAT_HISTORY:
       return { ...state, chatHistory: [...state.chatHistory, action.payload] };
     case UPDATE_CHAT_HISTORY:
-      return { ...state, chatHistory: action.payload };
+      return { ...state, chatHistory: [...action.payload, ...state.chatHistory,] };
     case RESET_CURRENT_CHAT:
       return { ...state, chatHistory: [], currentChat: null };
     case UPDATE_TOTAL:

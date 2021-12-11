@@ -33,7 +33,7 @@ const Message: React.FC<PropsType> = ({item}) => {
               <div className={styles.datetime}>{created}</div>
           </div>
         <div className={styles.message}>
-          <div>{item.message} </div>
+            <div><b>{item.id + ' '}</b>{item.message} </div>
         </div>
       </div>
     </div>

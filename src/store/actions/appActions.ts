@@ -61,7 +61,6 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
             const {users}:any = getState().user;
 
             if(data.chatId === currentChat.id) {
-                console.log('check ');
                 getUserShortInfo(rsocket, dispatch, users, data.userId, user).subscribe(result => {
                     dispatch({type: SET_CHAT_HISTORY, payload: {...data, user: result}});
                 })
