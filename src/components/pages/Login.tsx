@@ -5,6 +5,8 @@ import {useDispatch} from "react-redux";
 import {navigationMenu} from "../../constants";
 import {startSession} from "../../store/actions/appActions";
 
+import {Link, useNavigate} from "react-router-dom";
+
 import styles from './Login.module.scss';
 
 const Login:React.FC = () => {
@@ -12,6 +14,7 @@ const Login:React.FC = () => {
   const usernameInput = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     usernameInput.current!.focus();
@@ -19,7 +22,7 @@ const Login:React.FC = () => {
 
   const start = () => {
     if (username !== '') {
-      dispatch(startSession(username))
+      dispatch(startSession(username, () => navigate("/")))
     }
   }
 
@@ -38,7 +41,7 @@ const Login:React.FC = () => {
         <div className={styles.navigation}>
           {
             navigationMenu.map((item) => {
-              return (<a href={item.url} className={styles.navigationItem}>{item.title}</a>)
+              return (<Link to={item.url} key={item.title} className={styles.navigationItem}>{item.title}</Link>)
             })
           }
         </div>
@@ -62,9 +65,9 @@ const Login:React.FC = () => {
                     value={username}
                     onChange={(e) => setUserName(e.target.value)}
                 />
-              <button type="submit" className={styles.loginBtn} onClick={start}>
-                Login
-              </button>
+                <button type="submit" className={styles.loginBtn} onClick={start}>
+                  Login
+                </button>
             </div>
           </div>
         </div>

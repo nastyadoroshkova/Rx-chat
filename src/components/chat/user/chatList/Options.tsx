@@ -19,6 +19,12 @@ const Options:React.FC = () => {
         }
     }
 
+    const logout = () => {
+        localStorage.removeItem('username');
+        localStorage.removeItem('userId');
+        window.location.reload(); // check ?
+    }
+
     return(
         <div className={styles.wrapper}>
             <div onClick={()=>{changeState(prevState => !prevState);}}>
@@ -28,6 +34,7 @@ const Options:React.FC = () => {
                 isOpen &&
                 <div ref={optionsRef} className={styles.options}>
                   <div className={styles.optionsItem}>Create group chat</div>
+                  <div onClick={logout} className={styles.optionsItem}>Logout</div>
                 </div>
             }
 

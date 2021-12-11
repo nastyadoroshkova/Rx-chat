@@ -6,20 +6,26 @@ import Login from "./components/pages/Login";
 
 import {createRsocketConnection} from "./store/actions/appActions";
 
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import "./App.scss";
+
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state:any) => state.user.user);
-  console.log(user, 'user');
 
   useEffect(() => {
     dispatch(createRsocketConnection());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="app">
-      {
-        user.id ? <Chat/> : <Login />
-      }
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Chat />} />
+      </Routes>
     </div>
   );
 }

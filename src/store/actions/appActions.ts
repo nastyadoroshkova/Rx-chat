@@ -20,13 +20,14 @@ export function createRsocketConnection() {
         new SpringRSocketMessagingBuilder()
             .connectionString('wss://green-chat-hpthl.ondigitalocean.app')
             .build()
-            .subscribe(socket => {
-                dispatch({type: CONNECT, payload: socket});
+            .subscribe(rsocket => {
+                dispatch({type: CONNECT, payload: rsocket});
             });
     };
 }
 
-export function startSession(username:string) {
+export function startSession(username:string, callback:() => void) {
+
     return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
         const {rsocket}:any = getState().app;
         rsocket.simpleRequestResponse(USER_LOGIN_ROUTE, { username: username, password: 'pass' })
@@ -34,6 +35,9 @@ export function startSession(username:string) {
                 dispatch({type: CREATE_USER, payload: user});
                 getChatList(rsocket, dispatch, user);
                 connectToMessageSession(rsocket, getState, dispatch, user);
+                localStorage.setItem('username', `${user.username}`);
+                localStorage.setItem('userId', `${user.id}`);
+                callback();
             });
     };
 }
@@ -52,12 +56,13 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
             const {
                 chats,
                 rsocket,
-                usersHash,
                 currentChat,
             }:any = getState().app;
+            const {users}:any = getState().user;
 
             if(data.chatId === currentChat.id) {
-                getUserShortInfo(rsocket, dispatch, usersHash, data.userId, user).subscribe(result => {
+                console.log('check ');
+                getUserShortInfo(rsocket, dispatch, users, data.userId, user).subscribe(result => {
                     dispatch({type: SET_CHAT_HISTORY, payload: {...data, user: result}});
                 })
             } else if (!isChatExist(data.chatId, chats)) {
@@ -66,5 +71,5 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
                         dispatch({type: SET_CHAT_LIST, payload: data});
                     });
             }
-        });
+        })
 }
