@@ -5,13 +5,16 @@ import {
     SET_CHAT_LIST,
     SET_CURRENT_CHAT,
     UPDATE_CHAT_HISTORY,
-    UPDATE_TOTAL, UPDATE_USER_LIST,
+    UPDATE_TOTAL,
+    UPDATE_USER_LIST,
 } from "../actionTypes";
 import {ActionType, AppStateType} from "../index";
 import {IChat, IMessage, IUser} from "../../interfaces";
 
 import {CHAT_CREATE_ROUTE, MESSAGE_HISTORY_ROUTE, USER_SHORT_INFO_ROUTE,} from "./routes";
 import {addAuthData} from "../authHelper";
+import {defaultIfEmpty, observeOn, tap} from "rxjs/operators";
+import {queueScheduler, zip} from "rxjs";
 
 export const isChatExist = (chatId:number, chats: [IChat]) => {
     return !!(chats.find(item => item.id === chatId));
@@ -59,27 +62,32 @@ export function loadHistory() {
 const getHistory = (getState: () => AppStateType, dispatch:Dispatch<ActionType>, chatId:number, from:Date) => {
     const limit = 10;
     const {rsocket}:any = getState().app;
-    const {chatHistory}:any = getState().app;
-    rsocket.simpleRequestResponse(MESSAGE_HISTORY_ROUTE, { chatId, from, limit })
-        .subscribe((data:any) => {
-            // @ts-ignore
-            let messages = (chatHistory.concat(data.list)).sort((a,b)=> {return new Date(a.created) - new Date(b.created)});
-            const userIds = new Set(data.list.map((item:IMessage) => item.userId));
+    const {users}:any = getState().user;
+    const {user}:any = getState().user;
 
-            const {users}:any = getState().user;
-            const {user}:any = getState().user;
-            userIds.forEach((id) => {
-                const result = users.find((item:IUser) => {return item.id === id});
-                if (!result) {
-                    rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE, {userId: id}, addAuthData(user.username))
-                        .subscribe((data:any) => {
-                            dispatch({type: UPDATE_USER_LIST, payload: data})
-                        });
-                }
-            })
+    rsocket.simpleRequestResponse(MESSAGE_HISTORY_ROUTE, {chatId, from, limit})
+        .pipe(observeOn(queueScheduler))
+        .subscribe(({list, total}: any) => {
+            dispatch({type: UPDATE_TOTAL, payload: total});
 
-            dispatch({type: UPDATE_CHAT_HISTORY, payload: [...messages]});
-            dispatch({type: UPDATE_TOTAL, payload: data.total});
+            zip(Array.from(new Set(list.map((msg: IMessage) => msg.userId)))
+                .filter(userId => !users.find((item: IUser) => item.id === userId))
+                .map(userId => rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE, {userId: userId}, addAuthData(user.username))
+                    .pipe(tap((user: IUser) => dispatch({type: UPDATE_USER_LIST, payload: user})))
+                ))
+                .pipe(defaultIfEmpty([]))
+                .subscribe(cached => {
+                    console.log('Cached', cached)
+
+                    const {users}: any = getState().user;
+                    const messages = list.map((msg: IMessage) => {
+                            msg.user = users.find((item: IUser) => item.id === msg.userId);
+                            return msg;
+                        }
+                    )
+                    console.log('ALL', messages)
+                    dispatch({type: UPDATE_CHAT_HISTORY, payload: [...messages]});
+                })
         });
 }
 
