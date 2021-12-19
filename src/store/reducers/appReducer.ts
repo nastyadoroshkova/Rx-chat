@@ -4,10 +4,14 @@ import {
   SEARCH_USER,
   SET_CHAT_HISTORY,
   SET_CHAT_LIST,
-  SET_CURRENT_CHAT, SET_GLOBAL_CHAT_STORAGE, UPDATE_CHAT_HISTORY, UPDATE_TOTAL,
+  SET_CURRENT_CHAT,
+  SET_GLOBAL_CHAT_STORAGE,
+  UPDATE_CHAT_HISTORY,
+  UPDATE_TOTAL,
+  UPDATE_CHAT_CASH,
 } from "../actionTypes";
 import {ReactiveSocket} from "rsocket-types";
-import {IChat, IMessage, IUser} from "../../interfaces";
+import {IChat, IChatCash, IMessage, IUser} from "../../interfaces";
 
 const initialState = {
   rsocket: {} as ReactiveSocket<any,any>,
@@ -16,7 +20,8 @@ const initialState = {
   currentChat: {} as IChat,
   chatHistory: [] as Array<IMessage>,
   total: 0 as number,
-  globalChatStorage: {} as Map<IChat, Array<IMessage>>
+  globalChatStorage: {} as Map<IChat, Array<IMessage>>,
+  chatCash: {} as Array<IChatCash>
 };
 
 export const appReducer = (state = initialState, action:AppActionType) => {
@@ -39,10 +44,28 @@ export const appReducer = (state = initialState, action:AppActionType) => {
       return { ...state, total: action.payload };
     case SET_GLOBAL_CHAT_STORAGE:
       return { ...state, globalChatStorage: action.payload };
+    case UPDATE_CHAT_CASH:
+      const type = action.payload.type;
+      const messages = action.payload.data;
+      if(messages.length) {
+        const chatId:number = messages[0].chatId;
+        return { ...state,
+          chatCash: {
+            ...state.chatCash,
+            // @ts-ignore
+            [chatId]: !state.chatCash[chatId] ? messages : convertMessages(type,state.chatCash[chatId], messages )
+          }
+        }
+      }
+      return {...state}
     default:
       return state;
   }
 };
+
+const convertMessages = (type: string, stateArray: Array<IMessage>, loadedArray: Array<IMessage>) => {
+  return type === 'one' ? [...stateArray, ...loadedArray] : [...loadedArray, ...stateArray];
+}
 
 type ConnectType = {
   type: typeof CONNECT,
@@ -89,5 +112,11 @@ type SetGlobalChatStorage = {
   payload: Map<IChat, Array<IMessage>>
 }
 
+type UpdateChatCash = {
+  type: typeof UPDATE_CHAT_CASH,
+  payload: any
+}
+
 export type AppActionType = ConnectType | SetChatListType | SearchUserType |
-    SetCurrentChatType | SetChatHistoryType | ResetCurrentChat | UpdateChatHistory | UpdateTotal | SetGlobalChatStorage;
+    SetCurrentChatType | SetChatHistoryType | ResetCurrentChat | UpdateChatHistory |
+    UpdateTotal | SetGlobalChatStorage | UpdateChatCash;

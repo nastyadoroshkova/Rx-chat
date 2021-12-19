@@ -5,7 +5,13 @@ import {IChat, IUser} from "../../interfaces";
 import {isChatExist} from "./chatActions";
 import {getUserShortInfo} from "./userActions";
 import {ActionType, AppStateType} from "../index";
-import {CONNECT, CREATE_USER, SET_CHAT_HISTORY, SET_CHAT_LIST} from "../actionTypes";
+import {
+    CONNECT,
+    CREATE_USER,
+    SET_CHAT_HISTORY,
+    SET_CHAT_LIST,
+    UPDATE_CHAT_CASH,
+} from "../actionTypes";
 
 import {
     CHAT_INFO_ROUTE,
@@ -60,15 +66,22 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
             }:any = getState().app;
             const {users}:any = getState().user;
 
-            if(data.chatId === currentChat.id) {
-                getUserShortInfo(rsocket, dispatch, users, data.userId, user).subscribe(result => {
-                    dispatch({type: SET_CHAT_HISTORY, payload: {...data, user: result}});
-                })
-            } else if (!isChatExist(data.chatId, chats)) {
+            if (!isChatExist(data.chatId, chats)) {
                 rsocket.simpleRequestResponse(CHAT_INFO_ROUTE, { chatId: data.chatId }, authData)
-                    .subscribe((data:IChat) => {
-                        dispatch({type: SET_CHAT_LIST, payload: data});
+                    .subscribe((chatData:IChat) => {
+                        dispatch({type: SET_CHAT_LIST, payload: chatData});
+                        getUserShortInfo(rsocket, dispatch, users, data.userId, user).subscribe(result => {
+                            dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'one', data: [{...data, user: result}]}});
+                        });
                     });
+            } else {
+                getUserShortInfo(rsocket, dispatch, users, data.userId, user).subscribe(result => {
+                    if(data.chatId === currentChat.id) {
+                        dispatch({type: SET_CHAT_HISTORY, payload: {...data, user: result}});
+                    }
+                    dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'one', data: [{...data, user: result}]}});
+                    // new message
+                })
             }
         })
 }

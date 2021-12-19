@@ -1,9 +1,10 @@
 import {Dispatch} from "redux";
 
 import {
-    RESET_CURRENT_CHAT, SET_CHAT_HISTORY,
+    RESET_CURRENT_CHAT,
     SET_CHAT_LIST,
     SET_CURRENT_CHAT,
+    UPDATE_CHAT_CASH,
     UPDATE_CHAT_HISTORY,
     UPDATE_TOTAL,
     UPDATE_USER_LIST,
@@ -63,35 +64,42 @@ export function loadHistory(callback: () => void) {
 
 const getHistory = (getState: () => AppStateType, dispatch: Dispatch<ActionType>, chatId: number, from: Date, callback: () => void) => {
     const limit = 10;
-    const {rsocket}: any = getState().app;
+    const {rsocket, chatCash, chatHistory}: any = getState().app;
     const {user, users}: any = getState().user;
-    rsocket.simpleRequestResponse(MESSAGE_HISTORY_ROUTE, {chatId, from, limit})
-        .pipe(
-            observeOn(queueScheduler),
-            tap(({total}: any) => dispatch({type: UPDATE_TOTAL, payload: total})),
-            mergeMap(({list}: any) => {
-                return zip(Array.from(new Set(list.map((msg: IMessage) => msg.userId)))
-                    .filter(userId => !users.find((item: IUser) => item.id === userId))
-                    .map(userId => rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE, {userId: userId}, addAuthData(user.username))
-                        .pipe(tap((user: IUser) => dispatch({type: UPDATE_USER_LIST, payload: user})))
-                    ))
-                    .pipe(
-                        defaultIfEmpty([]),
-                        map(cached => {
-                            const {users}: any = getState().user;
-                            return list.map((msg: IMessage) => {
-                                    msg.user = users.find((item: IUser) => item.id === msg.userId);
-                                    return msg;
-                                }
-                            )
-                        })
-                    )
-            })
-        )
-        .subscribe((messages: any) => {
-            dispatch({type: UPDATE_CHAT_HISTORY, payload: messages});
-            callback();
-        });
+    if(chatCash[chatId] && chatCash[chatId].length > chatHistory.length){
+        console.log('from CASH', 'cash:', chatCash[chatId].length, 'chatHistory:', chatHistory.length);
+        dispatch({type: UPDATE_CHAT_HISTORY, payload: chatCash[chatId]});
+    } else {
+        console.log('from SERVER');
+        rsocket.simpleRequestResponse(MESSAGE_HISTORY_ROUTE, {chatId, from, limit})
+            .pipe(
+                observeOn(queueScheduler),
+                tap(({total}: any) => dispatch({type: UPDATE_TOTAL, payload: total})),
+                mergeMap(({list}: any) => {
+                    return zip(Array.from(new Set(list.map((msg: IMessage) => msg.userId)))
+                        .filter(userId => !users.find((item: IUser) => item.id === userId))
+                        .map(userId => rsocket.simpleRequestResponse(USER_SHORT_INFO_ROUTE, {userId: userId}, addAuthData(user.username))
+                            .pipe(tap((user: IUser) => dispatch({type: UPDATE_USER_LIST, payload: user})))
+                        ))
+                        .pipe(
+                            defaultIfEmpty([]),
+                            map(cached => {
+                                const {users}: any = getState().user;
+                                return list.map((msg: IMessage) => {
+                                        msg.user = users.find((item: IUser) => item.id === msg.userId);
+                                        return msg;
+                                    }
+                                )
+                            })
+                        )
+                })
+            )
+            .subscribe((messages: any) => {
+                dispatch({type: UPDATE_CHAT_HISTORY, payload: messages});
+                dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'history', data: messages}});
+                callback();
+            });
+    }
 }
 
 const getChatInfoByUserId = (userId: number, chats: [IChat]) => {

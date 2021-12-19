@@ -21,3 +21,8 @@ export interface IChat {
     created: Date,
     color?: string,
 }
+
+export interface IChatCash {
+    id: number,
+    history: Array<IMessage>
+}
