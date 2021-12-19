@@ -14,7 +14,6 @@ import styles from "./Chat.module.scss";
 const Chat:React.FC = () => {
   const currentChat:IChat = useSelector((state:any) => state.app.currentChat);
   const rsocket:any = useSelector((state:any) => state.app.rsocket);
-  const chatCash:any = useSelector((state:any) => state.app.chatCash);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

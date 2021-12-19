@@ -63,6 +63,7 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
                 chats,
                 rsocket,
                 currentChat,
+                chatCash
             }:any = getState().app;
             const {users}:any = getState().user;
 
@@ -79,7 +80,9 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
                     if(data.chatId === currentChat.id) {
                         dispatch({type: SET_CHAT_HISTORY, payload: {...data, user: result}});
                     }
-                    dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'one', data: [{...data, user: result}]}});
+                    if(chatCash[data.chatId] && chatCash[data.chatId].length) {
+                        dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'one', data: [{...data, user: result}]}});
+                    }
                     // new message
                 })
             }
