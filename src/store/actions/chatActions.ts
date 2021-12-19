@@ -63,7 +63,7 @@ export function loadHistory(callback: () => void) {
 }
 
 const getHistory = (getState: () => AppStateType, dispatch: Dispatch<ActionType>, chatId: number, from: Date, callback: () => void) => {
-    const limit = 10;
+    const limit = 20;
     const {rsocket, chatCash, chatHistory}: any = getState().app;
     const {user, users}: any = getState().user;
     if(chatCash[chatId] && chatCash[chatId].length > chatHistory.length){

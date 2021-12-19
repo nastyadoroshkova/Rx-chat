@@ -20,7 +20,7 @@
 }
 
 .list {
-  max-height: 400px;
+  max-height: calc(100vh - 300px);
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
