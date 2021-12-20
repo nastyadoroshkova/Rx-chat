@@ -9,8 +9,11 @@ type PropsType = {
 }
 
 const formatTime = (date:Date) => {
-    const created = new Date(date);
-    return `${created.getHours()}:${created.getMinutes()}`
+    const created = new Date(date).toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit'
+    })
+    return `${created}`
 }
 
 const Message: React.FC<PropsType> = ({item}) => {
@@ -33,7 +36,7 @@ const Message: React.FC<PropsType> = ({item}) => {
               <div className={styles.datetime}>{created}</div>
           </div>
         <div className={styles.message}>
-            <div><b>{item.id + ' '}</b>{item.message} </div>
+            <div>{item.message}</div>
         </div>
       </div>
     </div>
