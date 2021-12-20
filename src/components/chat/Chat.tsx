@@ -44,7 +44,10 @@ const Chat:React.FC = () => {
           {
               currentChat?.id ? (
                   <div>
-                      <div className={styles.chatName}>{currentChat.name}</div>
+                      <div className={styles.chatInfo}>
+                          <div className={styles.chatName}>{currentChat.name}</div>
+                          <div className={styles.subscribers}>{currentChat.group ? `${currentChat.users.length} subscribers` : null}</div>
+                      </div>
                       <MessageList/>
                       <InputPanel />
                   </div>

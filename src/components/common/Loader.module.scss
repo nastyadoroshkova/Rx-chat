@@ -1,0 +1,16 @@
+.wrapper {
+  position: fixed;
+  z-index: 1020;
+  left: 0;
+  width: 100vw;
+  background: rgb(255 255 255 / 60%);
+  height: 100vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  top: 0;
+}
+
+.loader {
+  height: 90px;
+}
