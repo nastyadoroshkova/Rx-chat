@@ -21,7 +21,7 @@
   border-radius: 50%;
   line-height: 40px;
   height: 40px;
-  width: 40px;
+  min-width: 40px;
   margin-right: 10px;
   background-color: #79d3f3;
   color: #fff;
@@ -42,4 +42,11 @@
   color: #b2b2b2;
   font-size: 14px;
   line-height:1.4;
+}
+
+.message {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }

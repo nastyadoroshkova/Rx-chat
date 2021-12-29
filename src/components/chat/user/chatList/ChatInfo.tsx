@@ -21,7 +21,7 @@ const ChatInfo:React.FC<PropsType> = ({item}) => {
   const dispatch = useDispatch();
   const currentChat:IChat = useSelector((state:any) => state.app.currentChat);
   const lastMessage = item.lastMessage;
-  const created = formatTime(lastMessage.created || null);
+  const created = formatTime(lastMessage.created);
 
   return (
     <div onClick={() => {dispatch(openCurrentChat(item))}} className={(currentChat.id === item.id) ? styles.selected : styles.wrapper }>
