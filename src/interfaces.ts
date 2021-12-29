@@ -20,6 +20,7 @@ export interface IChat {
     group?: boolean,
     created: Date,
     color?: string,
+    lastMessage: IMessage,
 }
 
 export interface IChatCash {

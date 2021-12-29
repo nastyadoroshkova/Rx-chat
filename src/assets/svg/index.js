@@ -3,6 +3,7 @@ import {ReactComponent as SendSvg} from './send.svg';
 import {ReactComponent as SearchSvg} from './search.svg';
 import {ReactComponent as CrossSvg} from './cross.svg';
 import {ReactComponent as OptionsSvg} from './options.svg';
+import {ReactComponent as LogoutSvg} from './logout.svg';
 
 export {
   EmojiSvg,
@@ -10,5 +11,6 @@ export {
   SearchSvg,
   CrossSvg,
   OptionsSvg,
+  LogoutSvg,
 }
 

@@ -1,6 +1,6 @@
 .wrapper {
   flex: 3;
-  padding: 40px 0;
+  padding: 20px 0;
   border: 1px solid #f7f7f7;
 }
 
@@ -25,4 +25,11 @@
   text-align: center;
   font-weight: bold;
   font-size: 18px;
+}
+
+.options {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  cursor: pointer;
 }

@@ -20,7 +20,7 @@ const ChatInfoList:React.FC = () => {
     dispatch(searchUser(e.target.value));
   }
 
-  const handleAction = () => {
+  const clearSearch = () => {
     if(search.length) {
       setSearch('');
     }
@@ -30,7 +30,7 @@ const ChatInfoList:React.FC = () => {
     <div>
       <div className={styles.inputWrapper}>
         <input placeholder="Search ..." className={styles.input} value={search} onChange={handleChange}/>
-        <a onClick={handleAction} className={styles.action}>
+        <a onClick={clearSearch} className={styles.action}>
           { search.length ? <CrossSvg /> : <SearchSvg/> }
         </a>
       </div>

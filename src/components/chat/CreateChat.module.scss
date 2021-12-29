@@ -1,0 +1,90 @@
+.wrapper {
+  height: 100%;
+}
+
+.inputWrapper {
+  display: flex;
+  margin-top: 20px;
+  border-radius: 16px;
+  background-color: #F9F9F9;
+  height: 24px;
+  padding: 12px 10px 8px 16px;
+}
+
+.input {
+  background: transparent !important;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+}
+
+.action {
+  cursor: pointer;
+  padding: 3px 8px 0;
+}
+
+.list {
+  max-height: calc(100vh - 300px);
+  overflow: auto;
+  margin-top: 15px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.panel {
+  background-color: #ffffff;
+  margin: 20px;
+  padding: 20px 20px 40px;
+  border-radius: 10px;
+}
+
+.notFound {
+  margin-top: 10px;
+  text-align: center;
+  color: #999999;
+}
+
+.groupName {
+  display: flex;
+  vertical-align: baseline;
+}
+
+.groupTitle {
+  font-weight: 600;
+  align-self: center;
+  margin-right: 20px;
+}
+
+.inputGroupName {
+  height: 32px;
+  border-color: #ccc;
+  border-width: 0 0 1px 0;
+  font-size: 16px;
+  width: 100%;
+  background-color: transparent;
+}
+
+.inputGroupNameWrapper {
+  flex: 2 1 0;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.linkRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.link {
+  cursor: pointer;
+  font-weight: 500;
+  color: #356ad1;
+}
+
+.selectedUsers {
+  display: flex;
+}
+
+.selectedItem {
+  margin-right: 20px;
+}

@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 
 import {
+    IS_CREATE_GROUP_CHAT,
     RESET_CURRENT_CHAT,
     SET_CHAT_LIST,
     SET_CURRENT_CHAT,
@@ -43,14 +44,36 @@ export function createChatWithUser(friend: IUser) {
 
         if (!!chat) {
             dispatch({type: SET_CURRENT_CHAT, payload: chat});
-            getHistory(getState, dispatch, chat.id, new Date(), () => {
-            });
+            getHistory(getState, dispatch, chat.id, new Date(), () => {});
         } else {
-            createChat(rsocket, friend, user).then((result: any) => {
+            createChat(rsocket,{users: [friend.id, user.id]}, user.username).then((result: any) => {
                 dispatch({type: SET_CHAT_LIST, payload: result});
                 dispatch({type: SET_CURRENT_CHAT, payload: result});
             })
         }
+    }
+}
+
+export function createGroupChat(groupName:string, groupUsersId:Array<number>) {
+    return (dispatch: Dispatch<ActionType>, getState: () => AppStateType) => {
+        const {rsocket}: any = getState().app;
+        const {user} = getState().user;
+        const data = {
+            name: groupName,
+            group: true,
+            users: [...groupUsersId, user.id]
+        }
+
+        // resetSelectedChat(dispatch);
+
+        console.log(data, 'data');
+        console.log(user.username, 'user.username');
+        createChat(rsocket,data, user.username).then((result: any) => {
+            console.log(result, 'result');
+            dispatch({type: SET_CHAT_LIST, payload: result});
+            dispatch({type: SET_CURRENT_CHAT, payload: result});
+            dispatch({type: IS_CREATE_GROUP_CHAT, payload: false});
+        })
     }
 }
 
@@ -108,10 +131,10 @@ const getChatInfoByUserId = (userId: number, chats: [IChat]) => {
     });
 }
 
-const createChat = (rsocket: any, friend: IUser, myUser: IUser) => {
+const createChat = (rsocket: any, data:any, username:string) => {
     return new Promise((resolve) => {
         rsocket.simpleRequestResponse(
-            CHAT_CREATE_ROUTE, {users: [friend.id, myUser.id]}, addAuthData(myUser.username))
+            CHAT_CREATE_ROUTE, data, addAuthData(username))
             .subscribe((result: any) => resolve(result));
     })
 }

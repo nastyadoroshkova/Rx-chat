@@ -15,3 +15,4 @@ export const MESSAGE_SEND_ROUTE = 'message.send';
 // USER
 export const USER_SHORT_INFO_ROUTE = 'user.short.info';
 export const USER_SEARCH_ROUTE = 'user.search';
+export const USER_FRIENDS_ROUTE = 'user.friends';

@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 
 import Chat from "./components/chat/Chat";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import Login from "./components/pages/Login";
 
 import {createRsocketConnection} from "./store/actions/appActions";

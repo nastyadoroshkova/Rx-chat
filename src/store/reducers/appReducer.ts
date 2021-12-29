@@ -8,7 +8,7 @@ import {
   SET_GLOBAL_CHAT_STORAGE,
   UPDATE_CHAT_HISTORY,
   UPDATE_TOTAL,
-  UPDATE_CHAT_CASH,
+  UPDATE_CHAT_CASH, IS_CREATE_GROUP_CHAT,
 } from "../actionTypes";
 import {ReactiveSocket} from "rsocket-types";
 import {IChat, IChatCash, IMessage, IUser} from "../../interfaces";
@@ -21,7 +21,8 @@ const initialState = {
   chatHistory: [] as Array<IMessage>,
   total: 0 as number,
   globalChatStorage: {} as Map<IChat, Array<IMessage>>,
-  chatCash: {} as Array<IChatCash>
+  chatCash: {} as Array<IChatCash>,
+  isCreateGroup: false as boolean,
 };
 
 export const appReducer = (state = initialState, action:AppActionType) => {
@@ -44,6 +45,8 @@ export const appReducer = (state = initialState, action:AppActionType) => {
       return { ...state, total: action.payload };
     case SET_GLOBAL_CHAT_STORAGE:
       return { ...state, globalChatStorage: action.payload };
+    case IS_CREATE_GROUP_CHAT:
+      return { ...state, isCreateGroup: action.payload};
     case UPDATE_CHAT_CASH:
       const type = action.payload.type;
       const messages = action.payload.data;
@@ -117,6 +120,11 @@ type UpdateChatCash = {
   payload: any
 }
 
+type IsCreateGroupChat = {
+  type: typeof IS_CREATE_GROUP_CHAT,
+  payload: any
+}
+
 export type AppActionType = ConnectType | SetChatListType | SearchUserType |
     SetCurrentChatType | SetChatHistoryType | ResetCurrentChat | UpdateChatHistory |
-    UpdateTotal | SetGlobalChatStorage | UpdateChatCash;
+    UpdateTotal | SetGlobalChatStorage | UpdateChatCash | IsCreateGroupChat;

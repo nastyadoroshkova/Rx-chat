@@ -1,0 +1,104 @@
+.wrapper {
+  cursor: pointer;
+  padding: 20px;
+  display: flex;
+}
+
+.selected {
+  padding: 20px;
+  display: flex;
+  background-color: #f7f7f79c;
+}
+
+.wrapper:hover {
+  background-color: #f7f7f79c;
+  cursor: pointer;
+}
+
+.userImg {
+  text-align: center;
+  font-weight: bold;
+  font-size: 19px;
+  border-radius: 50%;
+  line-height: 40px;
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  background-color: #79d3f3;
+  color: #fff;
+}
+
+.userInfo {
+  flex: 3;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.lastSeen {
+  font-size: 14px;
+  color: #999999;
+}
+
+.checkBoxContainer {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.checkBoxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.checkBoxContainer:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.checkBoxContainer input:checked ~ .checkmark {
+  background-color: #39B773;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkBoxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkBoxContainer .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
