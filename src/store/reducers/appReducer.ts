@@ -8,7 +8,9 @@ import {
   SET_GLOBAL_CHAT_STORAGE,
   UPDATE_CHAT_HISTORY,
   UPDATE_TOTAL,
-  UPDATE_CHAT_CASH, IS_CREATE_GROUP_CHAT,
+  UPDATE_CHAT_CASH,
+  IS_CREATE_GROUP_CHAT,
+  UPDATE_LAST_MESSAGE,
 } from "../actionTypes";
 import {ReactiveSocket} from "rsocket-types";
 import {IChat, IChatCash, IMessage, IUser} from "../../interfaces";
@@ -47,6 +49,16 @@ export const appReducer = (state = initialState, action:AppActionType) => {
       return { ...state, globalChatStorage: action.payload };
     case IS_CREATE_GROUP_CHAT:
       return { ...state, isCreateGroup: action.payload};
+    case UPDATE_LAST_MESSAGE:
+      const updatedChats = state.chats.map((item) => {
+        if(item.id === action.payload.chatId) {
+          const newItem = {...item};
+          newItem.lastMessage = action.payload;
+          return newItem;
+        }
+        return item;
+      });
+      return { ...state, chats: updatedChats};
     case UPDATE_CHAT_CASH:
       const type = action.payload.type;
       const messages = action.payload.data;
@@ -125,6 +137,11 @@ type IsCreateGroupChat = {
   payload: any
 }
 
+type UpdateLastMessage = {
+  type: typeof UPDATE_LAST_MESSAGE,
+  payload: any
+}
+
 export type AppActionType = ConnectType | SetChatListType | SearchUserType |
     SetCurrentChatType | SetChatHistoryType | ResetCurrentChat | UpdateChatHistory |
-    UpdateTotal | SetGlobalChatStorage | UpdateChatCash | IsCreateGroupChat;
+    UpdateTotal | SetGlobalChatStorage | UpdateChatCash | IsCreateGroupChat | UpdateLastMessage;

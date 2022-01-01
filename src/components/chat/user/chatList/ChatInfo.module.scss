@@ -38,13 +38,14 @@
 
 .message,
 .time {
-  flex: 1;
   color: #b2b2b2;
   font-size: 14px;
   line-height:1.4;
+  padding-right: 10px;
 }
 
 .message {
+  flex: 1;
   display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 1;

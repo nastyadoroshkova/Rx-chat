@@ -11,6 +11,7 @@ import {
     SET_CHAT_HISTORY,
     SET_CHAT_LIST,
     UPDATE_CHAT_CASH,
+    UPDATE_LAST_MESSAGE,
 } from "../actionTypes";
 
 import {
@@ -33,7 +34,6 @@ export function createRsocketConnection() {
 }
 
 export function startSession(username:string, callback:() => void) {
-
     return (dispatch:Dispatch<ActionType>, getState: () => AppStateType) => {
         const {rsocket}:any = getState().app;
         rsocket.simpleRequestResponse(USER_LOGIN_ROUTE, { username: username, password: 'pass' })
@@ -83,7 +83,7 @@ const connectToMessageSession = (rsocket:any, getState: () => AppStateType, disp
                     if(chatCash[data.chatId] && chatCash[data.chatId].length) {
                         dispatch({type: UPDATE_CHAT_CASH, payload: { type: 'one', data: [{...data, user: result}]}});
                     }
-                    // new message
+                    dispatch({type: UPDATE_LAST_MESSAGE, payload: data});
                 })
             }
         })

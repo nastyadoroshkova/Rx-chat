@@ -11,9 +11,17 @@ import Options from "./Options";
 
 const ChatInfoList:React.FC = () => {
   const chats = useSelector((state:any) => state.app.chats);
+
   const userSearch = useSelector((state:any) => state.app.userSearch);
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
+
+  const sortedChats = chats.sort((a:IChat, b:IChat) => {
+    const firstDate = new Date(a.lastMessage.created);
+    const secondDate = new Date(b.lastMessage.created);
+    // @ts-ignore
+    return (secondDate - firstDate);
+  });
 
   const handleChange = (e:any) => {
     setSearch(e.target.value);
@@ -48,7 +56,7 @@ const ChatInfoList:React.FC = () => {
         {
           search.length ?
             userSearch.map((item:IUser) => <UserInfo key={item.id} item={item}/>)
-            : chats.map((item:IChat) => <ChatInfo key={item.id} item={item}/>)
+            : sortedChats.map((item:IChat) => <ChatInfo key={item.id} item={item}/>)
         }
       </div>
     </div>

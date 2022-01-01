@@ -63,13 +63,8 @@ export function createGroupChat(groupName:string, groupUsersId:Array<number>) {
             group: true,
             users: [...groupUsersId, user.id]
         }
-
-        // resetSelectedChat(dispatch);
-
-        console.log(data, 'data');
-        console.log(user.username, 'user.username');
+        resetSelectedChat(dispatch);
         createChat(rsocket,data, user.username).then((result: any) => {
-            console.log(result, 'result');
             dispatch({type: SET_CHAT_LIST, payload: result});
             dispatch({type: SET_CURRENT_CHAT, payload: result});
             dispatch({type: IS_CREATE_GROUP_CHAT, payload: false});
