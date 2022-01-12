@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   align-items: flex-end;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
 }
 
 .userImg {
@@ -25,7 +25,7 @@
   font-size: 14px;
 }
 
-.message {
+.groupMessage, .message {
   box-sizing: border-box;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
@@ -37,6 +37,15 @@
   box-shadow:
           0 0 2rem rgba(black, 0.075),
           0 1rem 1rem -1rem rgba(black, 0.1);
+}
+
+.groupMessage {
+  margin-left: 50px;
+}
+
+.groupMessageWrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .datetime {

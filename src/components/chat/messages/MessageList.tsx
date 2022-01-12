@@ -47,13 +47,22 @@ const MessageList: React.FC = () => {
         });
     })
 
+    const FormattedMessageList = () => {
+        let prevUserId = -1;
+        return chatHistory.map((item: IMessage) => {
+            const isGroupMessages = prevUserId === item.userId;
+            prevUserId = item.userId;
+            return (
+                <Message key={item.id} isGroup={isGroupMessages} item={item}/>
+            );
+        })
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.messages}>
                 <div ref={scrollableArea} className={styles.scrollable}>
-                    {chatHistory.map((item: IMessage) =>
-                        <Message key={item.id} item={item}/>
-                    )}
+                    <FormattedMessageList/>
                 </div>
             </div>
         </div>
