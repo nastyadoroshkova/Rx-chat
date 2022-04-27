@@ -1,24 +1,26 @@
-import React, {useEffect} from "react";
+import React, {useEffect} from 'react';
 
-import Chat from "./components/chat/Chat";
-import {useDispatch} from "react-redux";
-import Login from "./components/pages/Login";
-
-import {createRsocketConnection} from "./store/actions/appActions";
+import {useDispatch} from 'react-redux';
 
 import {
   Routes,
   Route,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import "./App.scss";
+import Chat from './components/chat/Chat';
+import Login from './components/pages/Login';
+
+import {createRsocketConnection} from './store/actions/appActions';
+
+
+import './App.scss';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(createRsocketConnection());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="app">
@@ -28,6 +30,6 @@ const App: React.FC = () => {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

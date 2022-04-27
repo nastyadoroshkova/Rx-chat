@@ -1,11 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react';
 
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 
-import {navigationMenu} from "../../constants";
-import {startSession} from "../../store/actions/appActions";
+import {Link, useNavigate} from 'react-router-dom';
 
-import {Link, useNavigate} from "react-router-dom";
+import {navigationMenu} from '../../constants';
+import {startSession} from '../../store/actions/appActions';
+
 
 import styles from './Login.module.scss';
 
@@ -18,19 +19,19 @@ const Login:React.FC = () => {
 
   useEffect(() => {
     usernameInput.current!.focus();
-  }, [])
+  }, []);
 
   const start = () => {
     if (username !== '') {
-      dispatch(startSession(username, () => navigate("/")))
+      dispatch(startSession(username, () => navigate('/')));
     }
-  }
+  };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       start();
     }
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -41,7 +42,7 @@ const Login:React.FC = () => {
         <div className={styles.navigation}>
           {
             navigationMenu.map((item) => {
-              return (<Link to={item.url} key={item.title} className={styles.navigationItem}>{item.title}</Link>)
+              return (<Link to={item.url} key={item.title} className={styles.navigationItem}>{item.title}</Link>);
             })
           }
         </div>
@@ -56,27 +57,27 @@ const Login:React.FC = () => {
           </div>
           <div className={styles.inputForm}>
             <div className={styles.inputWrapper}>
-                <input
-                    ref={usernameInput}
-                    className={styles.input}
-                    placeholder="Enter your name"
-                    name="username"
-                    onKeyDown={handleKeyDown}
-                    value={username}
-                    onChange={(e) => setUserName(e.target.value)}
-                />
-                <button type="submit" className={styles.loginBtn} onClick={start}>
+              <input
+                ref={usernameInput}
+                className={styles.input}
+                placeholder="Enter your name"
+                name="username"
+                onKeyDown={handleKeyDown}
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+              <button type="submit" className={styles.loginBtn} onClick={start}>
                   Login
-                </button>
+              </button>
             </div>
           </div>
         </div>
         <div className={styles.right}>
-          <img alt='image' className={styles.mainImg} src={process.env.PUBLIC_URL + "/images/iphone-image.png"}/>
+          <img alt="phone" className={styles.mainImg} src={process.env.PUBLIC_URL + '/images/iphone-image.png'}/>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Login;

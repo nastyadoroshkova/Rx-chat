@@ -1,15 +1,18 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
+import Picker from 'emoji-picker-react';
 
-import {sendMessage} from "../../../../store/actions/messageActions";
+import {useDispatch} from 'react-redux';
+
+import {sendMessage} from '../../../../store/actions/messageActions';
 import {SendSvg} from '../../../../assets/svg';
 import {EmojiSvg} from '../../../../assets/svg';
 
 import styles from './InputPanel.module.scss';
-import {useDispatch} from "react-redux";
 
 const InputPanel:React.FC = () => {
+  const [isOpenEmoji, toggleEmoji] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch();
 
@@ -22,7 +25,7 @@ const InputPanel:React.FC = () => {
       e.preventDefault();
       send();
     }
-  }
+  };
 
   const send = () => {
     const message = inputRef.current!.value.trim();
@@ -30,11 +33,25 @@ const InputPanel:React.FC = () => {
       dispatch(sendMessage(message));
       inputRef.current!.value = '';
     }
-  }
+  };
+
+  const onChangeEmoji = () => {
+    toggleEmoji((prevState) => (!prevState));
+  };
+
+  const onEmojiClick = (event:any, emojiObject:any) => {
+    inputRef.current!.value += emojiObject.emoji;
+  };
 
   return (
     <div>
       <div className={styles.box}>
+        {
+          isOpenEmoji &&
+            <div className={styles.picker}>
+              <Picker onEmojiClick={onEmojiClick} />
+            </div>
+        }
         <TextareaAutosize
           ref={inputRef}
           maxRows={10}
@@ -44,12 +61,12 @@ const InputPanel:React.FC = () => {
           data-gramm="false"
         />
         <div className={styles.btnRow}>
-          <button className={styles.button}><EmojiSvg/></button>
+          <button className={styles.button} onClick={onChangeEmoji}><EmojiSvg/></button>
           <button className={styles.button} onClick={send}><SendSvg/></button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default InputPanel;

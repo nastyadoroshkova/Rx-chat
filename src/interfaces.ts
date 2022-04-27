@@ -11,6 +11,7 @@ export interface IMessage {
     userId: number,
     user?: IUser,
     message: string,
+    read: boolean,
 }
 
 export interface IChat {

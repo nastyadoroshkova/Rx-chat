@@ -1,3 +1,5 @@
+import {ReactiveSocket} from 'rsocket-types';
+
 import {
   CONNECT,
   RESET_CURRENT_CHAT,
@@ -11,9 +13,8 @@ import {
   UPDATE_CHAT_CASH,
   IS_CREATE_GROUP_CHAT,
   UPDATE_LAST_MESSAGE,
-} from "../actionTypes";
-import {ReactiveSocket} from "rsocket-types";
-import {IChat, IChatCash, IMessage, IUser} from "../../interfaces";
+} from '../actionTypes';
+import {IChat, IChatCash, IMessage, IUser} from '../../interfaces';
 
 const initialState = {
   rsocket: {} as ReactiveSocket<any,any>,
@@ -29,58 +30,58 @@ const initialState = {
 
 export const appReducer = (state = initialState, action:AppActionType) => {
   switch (action.type) {
-    case CONNECT:
-      return { ...state, rsocket: action.payload };
-    case SET_CHAT_LIST:
-      return { ...state, chats: [...state.chats, action.payload] };
-    case SEARCH_USER:
-      return { ...state, userSearch: action.payload };
-    case SET_CURRENT_CHAT:
-      return { ...state, currentChat: action.payload };
-    case SET_CHAT_HISTORY:
-      return { ...state, chatHistory: [...state.chatHistory, action.payload] };
-    case UPDATE_CHAT_HISTORY:
-      return { ...state, chatHistory: [...action.payload, ...state.chatHistory,] };
-    case RESET_CURRENT_CHAT:
-      return { ...state, chatHistory: [], currentChat: null };
-    case UPDATE_TOTAL:
-      return { ...state, total: action.payload };
-    case SET_GLOBAL_CHAT_STORAGE:
-      return { ...state, globalChatStorage: action.payload };
-    case IS_CREATE_GROUP_CHAT:
-      return { ...state, isCreateGroup: action.payload};
-    case UPDATE_LAST_MESSAGE:
-      const updatedChats = state.chats.map((item) => {
-        if(item.id === action.payload.chatId) {
-          const newItem = {...item};
-          newItem.lastMessage = action.payload;
-          return newItem;
-        }
-        return item;
-      });
-      return { ...state, chats: updatedChats};
-    case UPDATE_CHAT_CASH:
-      const type = action.payload.type;
-      const messages = action.payload.data;
-      if(messages.length) {
-        const chatId:number = messages[0].chatId;
-        return { ...state,
-          chatCash: {
-            ...state.chatCash,
-            // @ts-ignore
-            [chatId]: !state.chatCash[chatId] ? messages : convertMessages(type,state.chatCash[chatId], messages )
-          }
-        }
+  case CONNECT:
+    return { ...state, rsocket: action.payload };
+  case SET_CHAT_LIST:
+    return { ...state, chats: [...state.chats, action.payload] };
+  case SEARCH_USER:
+    return { ...state, userSearch: action.payload };
+  case SET_CURRENT_CHAT:
+    return { ...state, currentChat: action.payload };
+  case SET_CHAT_HISTORY:
+    return { ...state, chatHistory: [...state.chatHistory, action.payload] };
+  case UPDATE_CHAT_HISTORY:
+    return { ...state, chatHistory: [...action.payload, ...state.chatHistory] };
+  case RESET_CURRENT_CHAT:
+    return { ...state, chatHistory: [], currentChat: null };
+  case UPDATE_TOTAL:
+    return { ...state, total: action.payload };
+  case SET_GLOBAL_CHAT_STORAGE:
+    return { ...state, globalChatStorage: action.payload };
+  case IS_CREATE_GROUP_CHAT:
+    return { ...state, isCreateGroup: action.payload};
+  case UPDATE_LAST_MESSAGE:
+    const updatedChats = state.chats.map((item) => {
+      if(item.id === action.payload.chatId) {
+        const newItem = {...item};
+        newItem.lastMessage = action.payload;
+        return newItem;
       }
-      return {...state}
-    default:
-      return state;
+      return item;
+    });
+    return { ...state, chats: updatedChats};
+  case UPDATE_CHAT_CASH:
+    const type = action.payload.type;
+    const messages = action.payload.data;
+    if(messages.length) {
+      const chatId:number = messages[0].chatId;
+      return { ...state,
+        chatCash: {
+          ...state.chatCash,
+          // @ts-ignore
+          [chatId]: !state.chatCash[chatId] ? messages : convertMessages(type,state.chatCash[chatId], messages ),
+        },
+      };
+    }
+    return {...state};
+  default:
+    return state;
   }
 };
 
 const convertMessages = (type: string, stateArray: Array<IMessage>, loadedArray: Array<IMessage>) => {
   return type === 'one' ? [...stateArray, ...loadedArray] : [...loadedArray, ...stateArray];
-}
+};
 
 type ConnectType = {
   type: typeof CONNECT,

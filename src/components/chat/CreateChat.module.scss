@@ -19,8 +19,10 @@
 }
 
 .action {
+  border: none;
   cursor: pointer;
   padding: 3px 8px 0;
+  background-color: transparent;
 }
 
 .list {
@@ -38,7 +40,7 @@
 }
 
 .notFound {
-  margin-top: 10px;
+  width: 100%;
   text-align: center;
   color: #999999;
 }
@@ -46,6 +48,7 @@
 .groupName {
   display: flex;
   vertical-align: baseline;
+  margin-bottom: 20px;
 }
 
 .groupTitle {
@@ -55,7 +58,7 @@
 }
 
 .inputGroupName {
-  height: 32px;
+  height: 24px;
   border-color: #ccc;
   border-width: 0 0 1px 0;
   font-size: 16px;
@@ -66,13 +69,12 @@
 .inputGroupNameWrapper {
   flex: 2 1 0;
   margin-right: 10px;
-  margin-bottom: 20px;
 }
 
 .linkRow {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .link {
@@ -81,10 +83,41 @@
   color: #356ad1;
 }
 
+.notActiveLink {
+  cursor: pointer;
+  font-weight: 500;
+  color: #999999;
+}
+
 .selectedUsers {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .selectedItem {
-  margin-right: 20px;
+  display: flex;
+  margin-top: 5px;
+  margin-right: 10px;
+  padding: 5px 5px 5px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #39b673;
+  color: #39b673;
+}
+
+.selectedItemName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60px;
+  margin-right: 5px;
+}
+
+.selectedItemRemove {
+  cursor: pointer;
+  height: 20px;
+}
+
+.title {
+  font-weight: 600;
 }

@@ -27,9 +27,28 @@
   font-size: 18px;
 }
 
-.options {
+.settings {
+  position: relative;
   display: flex;
   justify-content: flex-end;
-  padding-right: 20px;
+  margin-right: 30px;
   cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  background-color: #fff;
+  right: -10px;
+  box-shadow: 0 0 2rem rgb(0 0 0 / 8%), 0 1rem 1rem -1rem rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  text-align: center;
+  top: 30px;
+}
+.optionsItem {
+  padding: 5px 16px;
+  margin: 3px;
+}
+.optionsItem:hover {
+  background: #F9F9F9;
+  border-radius: 4px;
 }

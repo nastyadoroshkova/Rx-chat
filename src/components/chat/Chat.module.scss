@@ -1,6 +1,14 @@
+.mobileView {
+  display: none;
+}
+
+.webView {
+  display: flex;
+  height: 100vh;
+}
+
 .wrapper {
   height: 100vh;
-  display: flex;
 }
 
 @media (max-width: 1500px){
@@ -8,6 +16,16 @@
     margin: 0;
   }
 }
+
+//@media (max-width: 600px){
+//  .webView {
+//    display: none;
+//  }
+//
+//  .mobileView {
+//    display: block;
+//  }
+//}
 
 .chat {
   flex: 8;

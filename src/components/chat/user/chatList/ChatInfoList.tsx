@@ -1,13 +1,16 @@
-import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import ChatInfo from "./ChatInfo";
-import {IChat, IUser} from "../../../../interfaces";
-import {searchUser} from "../../../../store/actions/userActions";
-import UserInfo from "./UserInfo";
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {IChat, IUser} from '../../../../interfaces';
+import {searchUser} from '../../../../store/actions/userActions';
+
 import {SearchSvg, CrossSvg} from '../../../../assets/svg';
 
+import UserInfo from './UserInfo';
+import ChatInfo from './ChatInfo';
+
 import styles from './ChatInfoList.module.scss';
-import Options from "./Options";
+import Options from './Options';
 
 const ChatInfoList:React.FC = () => {
   const chats = useSelector((state:any) => state.app.chats);
@@ -26,32 +29,32 @@ const ChatInfoList:React.FC = () => {
   const handleChange = (e:any) => {
     setSearch(e.target.value);
     dispatch(searchUser(e.target.value));
-  }
+  };
 
   const clearSearch = () => {
     if(search.length) {
       setSearch('');
     }
-  }
+  };
 
   return (
     <div>
       <div className={styles.inputWrapper}>
         <input placeholder="Search ..." className={styles.input} value={search} onChange={handleChange}/>
-        <a onClick={clearSearch} className={styles.action}>
+        <button onClick={clearSearch} className={styles.action}>
           { search.length ? <CrossSvg /> : <SearchSvg/> }
-        </a>
+        </button>
       </div>
-        {
-            !search.length && (
-                <div className={styles.panel}>
-                    <div className={styles.panelTitle}>Last chats</div>
-                    <div className={styles.panelIcons}>
-                      <Options/>
-                    </div>
-                </div>
-            )
-        }
+      {
+        !search.length && (
+          <div className={styles.panel}>
+            <div className={styles.panelTitle}>Last chats</div>
+            <div className={styles.panelIcons}>
+              <Options/>
+            </div>
+          </div>
+        )
+      }
       <div className={styles.list}>
         {
           search.length ?
@@ -61,6 +64,6 @@ const ChatInfoList:React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ChatInfoList;

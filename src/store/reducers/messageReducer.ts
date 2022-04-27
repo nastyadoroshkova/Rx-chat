@@ -1,31 +1,31 @@
 import {
-    GET_COMMON_MESSAGES,
-    GET_DIRECT_MESSAGES,
-    RECEIVE_MESSAGE
-} from "../actionTypes";
+  GET_COMMON_MESSAGES,
+  GET_DIRECT_MESSAGES,
+  RECEIVE_MESSAGE,
+} from '../actionTypes';
 
-import {IMessage} from "../../interfaces";
+import {IMessage} from '../../interfaces';
 
 const initialState = {
-    commonMessageList: [] as Array<IMessage>,
-    directMessageList: [] as Array<IMessage>,
-    messages: {} as Array<IMessage>,
-}
+  commonMessageList: [] as Array<IMessage>,
+  directMessageList: [] as Array<IMessage>,
+  messages: {} as Array<IMessage>,
+};
 
 type InitialState = typeof initialState;
 
 export const messageReducer = (state = initialState, action: MessageActionType):InitialState => {
-    switch (action.type) {
-        case RECEIVE_MESSAGE:
-            return { ...state, messages: [...state.messages, action.payload] };
-        case GET_COMMON_MESSAGES:
-            return { ...state, commonMessageList: action.payload };
-        case GET_DIRECT_MESSAGES:
-            return { ...state, directMessageList: action.payload };
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+  case RECEIVE_MESSAGE:
+    return { ...state, messages: [...state.messages, action.payload] };
+  case GET_COMMON_MESSAGES:
+    return { ...state, commonMessageList: action.payload };
+  case GET_DIRECT_MESSAGES:
+    return { ...state, directMessageList: action.payload };
+  default:
+    return state;
+  }
+};
 
 type ReceiveMessageType = {
     type: typeof RECEIVE_MESSAGE,

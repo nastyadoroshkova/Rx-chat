@@ -11,6 +11,8 @@
     "@types/rsocket-core": "^0.0.7",
     "@types/rsocket-types": "^0.0.3",
     "@types/rsocket-websocket-client": "^0.0.4",
+    "emoji-picker-react": "^3.5.0",
+    "emoji-regex": "^10.0.0",
     "eslint-config-react-app": "^6.0.0",
     "prettier": "^2.4.1",
     "react": "^17.0.2",
@@ -43,13 +45,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "eslint": "eslint -c .eslintrc --ext .ts,.tsx,.js,.jsx src",
+    "eslint:fix": "yarn run eslint -- --fix"
   },
   "browserslist": {
     "production": [

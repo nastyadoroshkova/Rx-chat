@@ -20,3 +20,17 @@
   border-radius: 4px;
   box-shadow: 0 0 2rem rgb(0 0 0 / 8%), 0 1rem 1rem -1rem rgb(0 0 0 / 10%);
 }
+
+.add {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.add:hover {
+  background-color: #F9F9F9;
+  border-radius: 8px;
+}
