@@ -114,8 +114,10 @@
 }
 
 .selectedItemRemove {
+  border: none;
   cursor: pointer;
   height: 20px;
+  background-color: transparent;
 }
 
 .title {
