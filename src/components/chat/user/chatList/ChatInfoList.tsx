@@ -41,7 +41,7 @@ const ChatInfoList:React.FC = () => {
     <div>
       <div className={styles.inputWrapper}>
         <input placeholder="Search ..." className={styles.input} value={search} onChange={handleChange}/>
-        <button onClick={clearSearch} className={styles.action}>
+        <button onClick={clearSearch} className={search.length ? styles.actionCross : styles.action}>
           { search.length ? <CrossSvg /> : <SearchSvg/> }
         </button>
       </div>

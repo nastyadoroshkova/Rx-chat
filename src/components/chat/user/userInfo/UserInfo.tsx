@@ -36,9 +36,7 @@ const UserInfo: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.settings}>
-        <div onClick={() => {
-          changeState(prevState => !prevState);
-        }}>
+        <div onClick={() => {changeState(prevState => !prevState);}} className={styles.settingsBtn}>
           <SettingsSvg/>
         </div>
         {

@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {IS_CREATE_GROUP_CHAT} from '../../store/actionTypes';
 import {IUser} from '../../interfaces';
-import {CrossSvgV2, CrossSvg, SearchSvg} from '../../assets/svg';
+import {CrossSvg, SearchSvg} from '../../assets/svg';
 import {getFriends, searchFriends} from '../../store/actions/userActions';
 
 import {createGroupChat} from '../../store/actions/chatActions';
@@ -104,7 +104,7 @@ const CreateChat:React.FC = () => {
                     <div key={item.id} className={styles.selectedItem}>
                       <div className={styles.selectedItemName}>{item.username}</div>
                       <button onClick={() => handleRemoveUser(item)} className={styles.selectedItemRemove}>
-                        <CrossSvgV2/>
+                        <CrossSvg/>
                       </button>
                     </div>
                   );
@@ -119,7 +119,7 @@ const CreateChat:React.FC = () => {
               value={search}
               onChange={handleChange}
             />
-            <button onClick={clearSearch} className={styles.action}>
+            <button onClick={clearSearch} className={search.length ? styles.actionCross : styles.action}>
               { search.length ? <CrossSvg /> : <SearchSvg/> }
             </button>
           </div>

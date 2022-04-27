@@ -15,6 +15,15 @@
 }
 
 .action {
+  fill: #999999;
+  border: none;
+  cursor: pointer;
+  padding: 3px 8px 0;
+  background-color: transparent;
+}
+
+.actionCross {
+  stroke: #999999;
   border: none;
   cursor: pointer;
   padding: 3px 8px 0;
